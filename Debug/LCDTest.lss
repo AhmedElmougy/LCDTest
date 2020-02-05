@@ -1,0 +1,2001 @@
+
+LCDTest.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         00000af2  00000000  00000000  00000074  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .data         00000048  00800060  00000af2  00000b66  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  2 .comment      00000030  00000000  00000000  00000bae  2**0
+                  CONTENTS, READONLY
+  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00000be0  2**2
+                  CONTENTS, READONLY
+  4 .debug_aranges 00000170  00000000  00000000  00000c1c  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .debug_info   000019fa  00000000  00000000  00000d8c  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_abbrev 000008c9  00000000  00000000  00002786  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_line   00000cdf  00000000  00000000  0000304f  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_frame  00000380  00000000  00000000  00003d30  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_str    000007f1  00000000  00000000  000040b0  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_loc    00001437  00000000  00000000  000048a1  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_ranges 00000120  00000000  00000000  00005cd8  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	0c 94 2a 00 	jmp	0x54	; 0x54 <__ctors_end>
+   4:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+   8:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+   c:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  10:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  14:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  18:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  1c:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  20:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  24:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  28:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  2c:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  30:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  34:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  38:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  3c:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  40:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  44:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  48:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  4c:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  50:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+
+00000054 <__ctors_end>:
+  54:	11 24       	eor	r1, r1
+  56:	1f be       	out	0x3f, r1	; 63
+  58:	cf e5       	ldi	r28, 0x5F	; 95
+  5a:	d8 e0       	ldi	r29, 0x08	; 8
+  5c:	de bf       	out	0x3e, r29	; 62
+  5e:	cd bf       	out	0x3d, r28	; 61
+
+00000060 <__do_copy_data>:
+  60:	10 e0       	ldi	r17, 0x00	; 0
+  62:	a0 e6       	ldi	r26, 0x60	; 96
+  64:	b0 e0       	ldi	r27, 0x00	; 0
+  66:	e2 ef       	ldi	r30, 0xF2	; 242
+  68:	fa e0       	ldi	r31, 0x0A	; 10
+  6a:	02 c0       	rjmp	.+4      	; 0x70 <__do_copy_data+0x10>
+  6c:	05 90       	lpm	r0, Z+
+  6e:	0d 92       	st	X+, r0
+  70:	a8 3a       	cpi	r26, 0xA8	; 168
+  72:	b1 07       	cpc	r27, r17
+  74:	d9 f7       	brne	.-10     	; 0x6c <__do_copy_data+0xc>
+  76:	0e 94 d4 02 	call	0x5a8	; 0x5a8 <main>
+  7a:	0c 94 77 05 	jmp	0xaee	; 0xaee <_exit>
+
+0000007e <__bad_interrupt>:
+  7e:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+00000082 <HLCD_voidWriteData>:
+ * Description : write Data to LCD
+ * Arguments   : u8 Data      
+ * return      : void
+ */
+ void HLCD_voidWriteData(u8 Copy_u8Data)
+ {
+  82:	ef 92       	push	r14
+  84:	ff 92       	push	r15
+  86:	0f 93       	push	r16
+  88:	1f 93       	push	r17
+  8a:	cf 93       	push	r28
+  8c:	df 93       	push	r29
+  8e:	e8 2e       	mov	r14, r24
+	 /*Set RW pin 0 (Write Mode selected)*/
+	 MDIO_u8WriteBit(ContREG,HLCD_RW,MDIO_LOW) ;  
+  90:	40 e0       	ldi	r20, 0x00	; 0
+  92:	61 e0       	ldi	r22, 0x01	; 1
+  94:	82 e0       	ldi	r24, 0x02	; 2
+  96:	0e 94 55 04 	call	0x8aa	; 0x8aa <MDIO_u8WriteBit>
+	 /*Set RS pin 1 (Data register selected)*/
+	 MDIO_u8WriteBit(ContREG,HLCD_RS,MDIO_HIGH) ;  
+  9a:	41 e0       	ldi	r20, 0x01	; 1
+  9c:	62 e0       	ldi	r22, 0x02	; 2
+  9e:	82 e0       	ldi	r24, 0x02	; 2
+  a0:	0e 94 55 04 	call	0x8aa	; 0x8aa <MDIO_u8WriteBit>
+  a4:	c4 e0       	ldi	r28, 0x04	; 4
+  a6:	d0 e0       	ldi	r29, 0x00	; 0
+	 /*output first 4 Data bits to Data Bus*/
+	 for(u8 i=4;i<8;i++)
+	 {
+		 /*Output value of Data bit i at Data register DIO Pin i*/
+		 MDIO_u8WriteBit(DataREG,i,L_UTILS_GET_BIT(Copy_u8Data,i)); 
+  a8:	f1 2c       	mov	r15, r1
+  aa:	87 01       	movw	r16, r14
+  ac:	a7 01       	movw	r20, r14
+  ae:	0c 2e       	mov	r0, r28
+  b0:	02 c0       	rjmp	.+4      	; 0xb6 <HLCD_voidWriteData+0x34>
+  b2:	55 95       	asr	r21
+  b4:	47 95       	ror	r20
+  b6:	0a 94       	dec	r0
+  b8:	e2 f7       	brpl	.-8      	; 0xb2 <HLCD_voidWriteData+0x30>
+  ba:	41 70       	andi	r20, 0x01	; 1
+  bc:	6c 2f       	mov	r22, r28
+  be:	82 e0       	ldi	r24, 0x02	; 2
+  c0:	0e 94 55 04 	call	0x8aa	; 0x8aa <MDIO_u8WriteBit>
+  c4:	21 96       	adiw	r28, 0x01	; 1
+	 /*Set RW pin 0 (Write Mode selected)*/
+	 MDIO_u8WriteBit(ContREG,HLCD_RW,MDIO_LOW) ;  
+	 /*Set RS pin 1 (Data register selected)*/
+	 MDIO_u8WriteBit(ContREG,HLCD_RS,MDIO_HIGH) ;  
+	 /*output first 4 Data bits to Data Bus*/
+	 for(u8 i=4;i<8;i++)
+  c6:	c8 30       	cpi	r28, 0x08	; 8
+  c8:	d1 05       	cpc	r29, r1
+  ca:	79 f7       	brne	.-34     	; 0xaa <HLCD_voidWriteData+0x28>
+		 /*Output value of Data bit i at Data register DIO Pin i*/
+		 MDIO_u8WriteBit(DataREG,i,L_UTILS_GET_BIT(Copy_u8Data,i)); 
+	 }
+	 /*latch sent data*/
+	 /*Set EN pin 1 (LCD Read data )*/
+	 MDIO_u8WriteBit(ContREG,HLCD_EN,MDIO_HIGH) ; 
+  cc:	41 e0       	ldi	r20, 0x01	; 1
+  ce:	60 e0       	ldi	r22, 0x00	; 0
+  d0:	82 e0       	ldi	r24, 0x02	; 2
+  d2:	0e 94 55 04 	call	0x8aa	; 0x8aa <MDIO_u8WriteBit>
+	 //_delay_ms(2);
+	 LDelay_voidDelay_ms(2);
+  d6:	62 e0       	ldi	r22, 0x02	; 2
+  d8:	70 e0       	ldi	r23, 0x00	; 0
+  da:	80 e0       	ldi	r24, 0x00	; 0
+  dc:	90 e0       	ldi	r25, 0x00	; 0
+  de:	0e 94 6c 02 	call	0x4d8	; 0x4d8 <LDelay_voidDelay_ms>
+	 /*Set EN pin 0 (LCD Write data to its reg)*/
+	 MDIO_u8WriteBit(ContREG,HLCD_EN,MDIO_LOW) ;  
+  e2:	40 e0       	ldi	r20, 0x00	; 0
+  e4:	60 e0       	ldi	r22, 0x00	; 0
+  e6:	82 e0       	ldi	r24, 0x02	; 2
+  e8:	0e 94 55 04 	call	0x8aa	; 0x8aa <MDIO_u8WriteBit>
+  ec:	c4 e0       	ldi	r28, 0x04	; 4
+  ee:	e1 2c       	mov	r14, r1
+  f0:	f1 2c       	mov	r15, r1
+	 
+	 /*output second 4 bits Data to data bus*/
+	 for(u8 i=0;i<4;i++)
+	 {
+		 /*Output value of Data bit i at Data register DIO Pin i*/
+		 MDIO_u8WriteBit(DataREG,i+4,L_UTILS_GET_BIT(Copy_u8Data,i)); 
+  f2:	a8 01       	movw	r20, r16
+  f4:	0e 2c       	mov	r0, r14
+  f6:	02 c0       	rjmp	.+4      	; 0xfc <HLCD_voidWriteData+0x7a>
+  f8:	55 95       	asr	r21
+  fa:	47 95       	ror	r20
+  fc:	0a 94       	dec	r0
+  fe:	e2 f7       	brpl	.-8      	; 0xf8 <HLCD_voidWriteData+0x76>
+ 100:	41 70       	andi	r20, 0x01	; 1
+ 102:	6c 2f       	mov	r22, r28
+ 104:	82 e0       	ldi	r24, 0x02	; 2
+ 106:	0e 94 55 04 	call	0x8aa	; 0x8aa <MDIO_u8WriteBit>
+ 10a:	8f ef       	ldi	r24, 0xFF	; 255
+ 10c:	e8 1a       	sub	r14, r24
+ 10e:	f8 0a       	sbc	r15, r24
+ 110:	cf 5f       	subi	r28, 0xFF	; 255
+	 LDelay_voidDelay_ms(2);
+	 /*Set EN pin 0 (LCD Write data to its reg)*/
+	 MDIO_u8WriteBit(ContREG,HLCD_EN,MDIO_LOW) ;  
+	 
+	 /*output second 4 bits Data to data bus*/
+	 for(u8 i=0;i<4;i++)
+ 112:	c8 30       	cpi	r28, 0x08	; 8
+ 114:	71 f7       	brne	.-36     	; 0xf2 <HLCD_voidWriteData+0x70>
+		 /*Output value of Data bit i at Data register DIO Pin i*/
+		 MDIO_u8WriteBit(DataREG,i+4,L_UTILS_GET_BIT(Copy_u8Data,i)); 
+	 }
+	 /*latch sent data*/
+	 /*Set EN pin 1 (LCD Read data)*/
+	 MDIO_u8WriteBit(ContREG,HLCD_EN,MDIO_HIGH) ; 
+ 116:	41 e0       	ldi	r20, 0x01	; 1
+ 118:	60 e0       	ldi	r22, 0x00	; 0
+ 11a:	82 e0       	ldi	r24, 0x02	; 2
+ 11c:	0e 94 55 04 	call	0x8aa	; 0x8aa <MDIO_u8WriteBit>
+	 //_delay_ms(2);
+	 LDelay_voidDelay_ms(2);
+ 120:	62 e0       	ldi	r22, 0x02	; 2
+ 122:	70 e0       	ldi	r23, 0x00	; 0
+ 124:	80 e0       	ldi	r24, 0x00	; 0
+ 126:	90 e0       	ldi	r25, 0x00	; 0
+ 128:	0e 94 6c 02 	call	0x4d8	; 0x4d8 <LDelay_voidDelay_ms>
+	 /*Set EN pin 0 (LCD Write data to its reg)*/
+	 MDIO_u8WriteBit(ContREG,HLCD_EN,MDIO_LOW) ;  
+ 12c:	40 e0       	ldi	r20, 0x00	; 0
+ 12e:	60 e0       	ldi	r22, 0x00	; 0
+ 130:	82 e0       	ldi	r24, 0x02	; 2
+ 132:	0e 94 55 04 	call	0x8aa	; 0x8aa <MDIO_u8WriteBit>
+
+ }/*end of HLCD_voidWriteData()*/
+ 136:	df 91       	pop	r29
+ 138:	cf 91       	pop	r28
+ 13a:	1f 91       	pop	r17
+ 13c:	0f 91       	pop	r16
+ 13e:	ff 90       	pop	r15
+ 140:	ef 90       	pop	r14
+ 142:	08 95       	ret
+
+00000144 <HLCD_voidWriteCommand>:
+ * Description : write command to LCD
+ * Arguments   : u8 Command       
+ * return      : void
+ */
+ void HLCD_voidWriteCommand(u8 Copy_u8Data)
+ {
+ 144:	ef 92       	push	r14
+ 146:	ff 92       	push	r15
+ 148:	0f 93       	push	r16
+ 14a:	1f 93       	push	r17
+ 14c:	cf 93       	push	r28
+ 14e:	df 93       	push	r29
+ 150:	e8 2e       	mov	r14, r24
+	 /*Set RW pin 0 (Write Mode selected)*/
+	 MDIO_u8WriteBit(ContREG,HLCD_RW,MDIO_LOW) ;  
+ 152:	40 e0       	ldi	r20, 0x00	; 0
+ 154:	61 e0       	ldi	r22, 0x01	; 1
+ 156:	82 e0       	ldi	r24, 0x02	; 2
+ 158:	0e 94 55 04 	call	0x8aa	; 0x8aa <MDIO_u8WriteBit>
+	 /*Set RS pin 0 (Instruction register selected)*/
+	 MDIO_u8WriteBit(ContREG,HLCD_RS,MDIO_LOW) ;  
+ 15c:	40 e0       	ldi	r20, 0x00	; 0
+ 15e:	62 e0       	ldi	r22, 0x02	; 2
+ 160:	82 e0       	ldi	r24, 0x02	; 2
+ 162:	0e 94 55 04 	call	0x8aa	; 0x8aa <MDIO_u8WriteBit>
+ 166:	c4 e0       	ldi	r28, 0x04	; 4
+ 168:	d0 e0       	ldi	r29, 0x00	; 0
+	 /*output first 4 bits instruction data to Data Bus*/
+	 for(u8 i=4;i<8;i++)
+	 {
+		 /*Output value of Instruction bit i at Data Register DIO Pin i*/
+		 MDIO_u8WriteBit(DataREG,i,L_UTILS_GET_BIT(Copy_u8Data,i)); 
+ 16a:	f1 2c       	mov	r15, r1
+ 16c:	87 01       	movw	r16, r14
+ 16e:	a7 01       	movw	r20, r14
+ 170:	0c 2e       	mov	r0, r28
+ 172:	02 c0       	rjmp	.+4      	; 0x178 <HLCD_voidWriteCommand+0x34>
+ 174:	55 95       	asr	r21
+ 176:	47 95       	ror	r20
+ 178:	0a 94       	dec	r0
+ 17a:	e2 f7       	brpl	.-8      	; 0x174 <HLCD_voidWriteCommand+0x30>
+ 17c:	41 70       	andi	r20, 0x01	; 1
+ 17e:	6c 2f       	mov	r22, r28
+ 180:	82 e0       	ldi	r24, 0x02	; 2
+ 182:	0e 94 55 04 	call	0x8aa	; 0x8aa <MDIO_u8WriteBit>
+ 186:	21 96       	adiw	r28, 0x01	; 1
+	 /*Set RW pin 0 (Write Mode selected)*/
+	 MDIO_u8WriteBit(ContREG,HLCD_RW,MDIO_LOW) ;  
+	 /*Set RS pin 0 (Instruction register selected)*/
+	 MDIO_u8WriteBit(ContREG,HLCD_RS,MDIO_LOW) ;  
+	 /*output first 4 bits instruction data to Data Bus*/
+	 for(u8 i=4;i<8;i++)
+ 188:	c8 30       	cpi	r28, 0x08	; 8
+ 18a:	d1 05       	cpc	r29, r1
+ 18c:	79 f7       	brne	.-34     	; 0x16c <HLCD_voidWriteCommand+0x28>
+		 /*Output value of Instruction bit i at Data Register DIO Pin i*/
+		 MDIO_u8WriteBit(DataREG,i,L_UTILS_GET_BIT(Copy_u8Data,i)); 
+	 }
+	 /*latch sent data*/
+	 /*Set EN pin 1 (LCD Read data )*/
+	 MDIO_u8WriteBit(ContREG,HLCD_EN,MDIO_HIGH) ; 
+ 18e:	41 e0       	ldi	r20, 0x01	; 1
+ 190:	60 e0       	ldi	r22, 0x00	; 0
+ 192:	82 e0       	ldi	r24, 0x02	; 2
+ 194:	0e 94 55 04 	call	0x8aa	; 0x8aa <MDIO_u8WriteBit>
+	 //_delay_ms(2);
+	 LDelay_voidDelay_ms(2);
+ 198:	62 e0       	ldi	r22, 0x02	; 2
+ 19a:	70 e0       	ldi	r23, 0x00	; 0
+ 19c:	80 e0       	ldi	r24, 0x00	; 0
+ 19e:	90 e0       	ldi	r25, 0x00	; 0
+ 1a0:	0e 94 6c 02 	call	0x4d8	; 0x4d8 <LDelay_voidDelay_ms>
+	 /*Set EN pin 0 (LCD Write data to its reg)*/
+	 MDIO_u8WriteBit(ContREG,HLCD_EN,MDIO_LOW) ;  
+ 1a4:	40 e0       	ldi	r20, 0x00	; 0
+ 1a6:	60 e0       	ldi	r22, 0x00	; 0
+ 1a8:	82 e0       	ldi	r24, 0x02	; 2
+ 1aa:	0e 94 55 04 	call	0x8aa	; 0x8aa <MDIO_u8WriteBit>
+ 1ae:	c4 e0       	ldi	r28, 0x04	; 4
+ 1b0:	e1 2c       	mov	r14, r1
+ 1b2:	f1 2c       	mov	r15, r1
+	 
+	 /*output second 4 bits instruction to data bus*/
+	 for(u8 i=0;i<4;i++)
+	 {
+		 /*Output value of Instruction bit i at Data Register DIO Pin i*/
+		 MDIO_u8WriteBit(DataREG,i+4,L_UTILS_GET_BIT(Copy_u8Data,i)); 
+ 1b4:	a8 01       	movw	r20, r16
+ 1b6:	0e 2c       	mov	r0, r14
+ 1b8:	02 c0       	rjmp	.+4      	; 0x1be <HLCD_voidWriteCommand+0x7a>
+ 1ba:	55 95       	asr	r21
+ 1bc:	47 95       	ror	r20
+ 1be:	0a 94       	dec	r0
+ 1c0:	e2 f7       	brpl	.-8      	; 0x1ba <HLCD_voidWriteCommand+0x76>
+ 1c2:	41 70       	andi	r20, 0x01	; 1
+ 1c4:	6c 2f       	mov	r22, r28
+ 1c6:	82 e0       	ldi	r24, 0x02	; 2
+ 1c8:	0e 94 55 04 	call	0x8aa	; 0x8aa <MDIO_u8WriteBit>
+ 1cc:	8f ef       	ldi	r24, 0xFF	; 255
+ 1ce:	e8 1a       	sub	r14, r24
+ 1d0:	f8 0a       	sbc	r15, r24
+ 1d2:	cf 5f       	subi	r28, 0xFF	; 255
+	 LDelay_voidDelay_ms(2);
+	 /*Set EN pin 0 (LCD Write data to its reg)*/
+	 MDIO_u8WriteBit(ContREG,HLCD_EN,MDIO_LOW) ;  
+	 
+	 /*output second 4 bits instruction to data bus*/
+	 for(u8 i=0;i<4;i++)
+ 1d4:	c8 30       	cpi	r28, 0x08	; 8
+ 1d6:	71 f7       	brne	.-36     	; 0x1b4 <HLCD_voidWriteCommand+0x70>
+		 /*Output value of Instruction bit i at Data Register DIO Pin i*/
+		 MDIO_u8WriteBit(DataREG,i+4,L_UTILS_GET_BIT(Copy_u8Data,i)); 
+	 }
+	 /*latch sent data*/
+	 /*Set EN pin 1 (LCD Read data )*/
+	 MDIO_u8WriteBit(ContREG,HLCD_EN,MDIO_HIGH) ; 
+ 1d8:	41 e0       	ldi	r20, 0x01	; 1
+ 1da:	60 e0       	ldi	r22, 0x00	; 0
+ 1dc:	82 e0       	ldi	r24, 0x02	; 2
+ 1de:	0e 94 55 04 	call	0x8aa	; 0x8aa <MDIO_u8WriteBit>
+	 //_delay_ms(2);
+	 LDelay_voidDelay_ms(2);
+ 1e2:	62 e0       	ldi	r22, 0x02	; 2
+ 1e4:	70 e0       	ldi	r23, 0x00	; 0
+ 1e6:	80 e0       	ldi	r24, 0x00	; 0
+ 1e8:	90 e0       	ldi	r25, 0x00	; 0
+ 1ea:	0e 94 6c 02 	call	0x4d8	; 0x4d8 <LDelay_voidDelay_ms>
+	 /*Set EN pin 0 (LCD Write data to its reg)*/
+	 MDIO_u8WriteBit(ContREG,HLCD_EN,MDIO_LOW) ;  
+ 1ee:	40 e0       	ldi	r20, 0x00	; 0
+ 1f0:	60 e0       	ldi	r22, 0x00	; 0
+ 1f2:	82 e0       	ldi	r24, 0x02	; 2
+ 1f4:	0e 94 55 04 	call	0x8aa	; 0x8aa <MDIO_u8WriteBit>
+ }/*end of HLCD_voidWriteCommand()*/
+ 1f8:	df 91       	pop	r29
+ 1fa:	cf 91       	pop	r28
+ 1fc:	1f 91       	pop	r17
+ 1fe:	0f 91       	pop	r16
+ 200:	ff 90       	pop	r15
+ 202:	ef 90       	pop	r14
+ 204:	08 95       	ret
+
+00000206 <HLCD_voidInitializeLCD>:
+ *               in 4 bit mode control and data register must be the same register 
+ * Arguments   : void                   
+ * return      : void  
+ */
+ void HLCD_voidInitializeLCD(void)
+ {
+ 206:	ef 92       	push	r14
+ 208:	ff 92       	push	r15
+ 20a:	0f 93       	push	r16
+ 20c:	1f 93       	push	r17
+ 20e:	cf 93       	push	r28
+ 210:	df 93       	push	r29
+	 /*==============================================================
+	  * Configure LCD pins direction
+	  *==============================================================*/
+	 /*Configure RS Pin output*/
+	 MDIO_u8SetDirectionBit(ContREG,HLCD_RS,MDIO_OUTPUT);      
+ 212:	41 e0       	ldi	r20, 0x01	; 1
+ 214:	62 e0       	ldi	r22, 0x02	; 2
+ 216:	82 e0       	ldi	r24, 0x02	; 2
+ 218:	0e 94 cd 03 	call	0x79a	; 0x79a <MDIO_u8SetDirectionBit>
+	 /*Configure RW Pin output*/
+	 MDIO_u8SetDirectionBit(ContREG,HLCD_RW,MDIO_OUTPUT);      
+ 21c:	41 e0       	ldi	r20, 0x01	; 1
+ 21e:	61 e0       	ldi	r22, 0x01	; 1
+ 220:	82 e0       	ldi	r24, 0x02	; 2
+ 222:	0e 94 cd 03 	call	0x79a	; 0x79a <MDIO_u8SetDirectionBit>
+	 /*Configure EN Pin output*/
+	 MDIO_u8SetDirectionBit(ContREG,HLCD_EN,MDIO_OUTPUT);      
+ 226:	41 e0       	ldi	r20, 0x01	; 1
+ 228:	60 e0       	ldi	r22, 0x00	; 0
+ 22a:	82 e0       	ldi	r24, 0x02	; 2
+ 22c:	0e 94 cd 03 	call	0x79a	; 0x79a <MDIO_u8SetDirectionBit>
+	 /*Configure Data register output*/
+	 MDIO_u8SetDirectionReg(DataREG,MDIO_OUTPUT);              
+ 230:	61 e0       	ldi	r22, 0x01	; 1
+ 232:	82 e0       	ldi	r24, 0x02	; 2
+ 234:	0e 94 b1 03 	call	0x762	; 0x762 <MDIO_u8SetDirectionReg>
+	 //_delay_ms(50);
+	 LDelay_voidDelay_ms(50);
+ 238:	62 e3       	ldi	r22, 0x32	; 50
+ 23a:	70 e0       	ldi	r23, 0x00	; 0
+ 23c:	80 e0       	ldi	r24, 0x00	; 0
+ 23e:	90 e0       	ldi	r25, 0x00	; 0
+ 240:	0e 94 6c 02 	call	0x4d8	; 0x4d8 <LDelay_voidDelay_ms>
+	  * Choose font size and number of lines
+	  *==============================================================*/
+	 /*Set Font size value 5*7 dots or 5*10 dots*/
+	  L_UTILS_SET_BIT_VALUE(FontSizeAndLineCommand,HLCD_FONT_BIT,HLCD_FONT_SIZE);
+	 /*Set number of lines 1 or 2*/
+	  L_UTILS_SET_BIT_VALUE(FontSizeAndLineCommand,HLCD_LINE_BIT,HLCD_LINE_MODE);
+ 244:	80 91 60 00 	lds	r24, 0x0060	; 0x800060 <FontSizeAndLineCommand>
+ 248:	8b 7f       	andi	r24, 0xFB	; 251
+ 24a:	88 60       	ori	r24, 0x08	; 8
+ 24c:	80 93 60 00 	sts	0x0060, r24	; 0x800060 <FontSizeAndLineCommand>
+	 /*====================================
+	  * 4Bit Mode initialization
+	  *====================================*/
+     #elif (HLCD_MODE == HLCD_4BIT)
+		/*send 4BIT Function set instruction two times*/
+		HLCD_voidWriteCommand(HLCD_FN_SET_4BIT);
+ 250:	82 e2       	ldi	r24, 0x22	; 34
+ 252:	0e 94 a2 00 	call	0x144	; 0x144 <HLCD_voidWriteCommand>
+		/*send Function set instruction for font and number of lines*/  
+		HLCD_voidWriteCommand(FontSizeAndLineCommand);       
+ 256:	80 91 60 00 	lds	r24, 0x0060	; 0x800060 <FontSizeAndLineCommand>
+ 25a:	0e 94 a2 00 	call	0x144	; 0x144 <HLCD_voidWriteCommand>
+		//_delay_ms(1);
+		LDelay_voidDelay_ms(1);
+ 25e:	61 e0       	ldi	r22, 0x01	; 1
+ 260:	70 e0       	ldi	r23, 0x00	; 0
+ 262:	80 e0       	ldi	r24, 0x00	; 0
+ 264:	90 e0       	ldi	r25, 0x00	; 0
+ 266:	0e 94 6c 02 	call	0x4d8	; 0x4d8 <LDelay_voidDelay_ms>
+	 #endif
+	 
+	 /*send Display ON OFF instruction*/
+	 HLCD_voidWriteCommand(DisplayAndCursorCommand);
+ 26a:	80 91 61 00 	lds	r24, 0x0061	; 0x800061 <DisplayAndCursorCommand>
+ 26e:	0e 94 a2 00 	call	0x144	; 0x144 <HLCD_voidWriteCommand>
+	 //_delay_ms(1);
+	 LDelay_voidDelay_ms(1);
+ 272:	61 e0       	ldi	r22, 0x01	; 1
+ 274:	70 e0       	ldi	r23, 0x00	; 0
+ 276:	80 e0       	ldi	r24, 0x00	; 0
+ 278:	90 e0       	ldi	r25, 0x00	; 0
+ 27a:	0e 94 6c 02 	call	0x4d8	; 0x4d8 <LDelay_voidDelay_ms>
+	 /*send Display clear instruction*/
+	 HLCD_voidWriteCommand(HLCD_DISP_CLEAR);
+ 27e:	81 e0       	ldi	r24, 0x01	; 1
+ 280:	0e 94 a2 00 	call	0x144	; 0x144 <HLCD_voidWriteCommand>
+	 //_delay_ms(2);
+	 LDelay_voidDelay_ms(2);
+ 284:	62 e0       	ldi	r22, 0x02	; 2
+ 286:	70 e0       	ldi	r23, 0x00	; 0
+ 288:	80 e0       	ldi	r24, 0x00	; 0
+ 28a:	90 e0       	ldi	r25, 0x00	; 0
+ 28c:	0e 94 6c 02 	call	0x4d8	; 0x4d8 <LDelay_voidDelay_ms>
+	 /*send ENTRY MODE set instruction*/
+	 HLCD_voidWriteCommand(HLCD_ENTRY_MODE);
+ 290:	86 e0       	ldi	r24, 0x06	; 6
+ 292:	0e 94 a2 00 	call	0x144	; 0x144 <HLCD_voidWriteCommand>
+	 //_delay_ms(2);
+	 LDelay_voidDelay_ms(2);
+ 296:	62 e0       	ldi	r22, 0x02	; 2
+ 298:	70 e0       	ldi	r23, 0x00	; 0
+ 29a:	80 e0       	ldi	r24, 0x00	; 0
+ 29c:	90 e0       	ldi	r25, 0x00	; 0
+ 29e:	0e 94 6c 02 	call	0x4d8	; 0x4d8 <LDelay_voidDelay_ms>
+	 
+	 /*=============================================================================
+	  * Initialize custom made characters with pre-configured arrays' values
+	  *=============================================================================*/
+	 /*jump to CGRAM address*/
+	 HLCD_voidWriteCommand(HLCD_CGRAM_ADDRESS);
+ 2a2:	80 e4       	ldi	r24, 0x40	; 64
+ 2a4:	0e 94 a2 00 	call	0x144	; 0x144 <HLCD_voidWriteCommand>
+ 2a8:	c2 e6       	ldi	r28, 0x62	; 98
+ 2aa:	d0 e0       	ldi	r29, 0x00	; 0
+ 2ac:	0f 2e       	mov	r0, r31
+ 2ae:	f2 ea       	ldi	r31, 0xA2	; 162
+ 2b0:	ef 2e       	mov	r14, r31
+ 2b2:	f0 e0       	ldi	r31, 0x00	; 0
+ 2b4:	ff 2e       	mov	r15, r31
+ 2b6:	f0 2d       	mov	r31, r0
+ 2b8:	0a c0       	rjmp	.+20     	; 0x2ce <HLCD_voidInitializeLCD+0xc8>
+	 /*fill GCRAM with HLCD_u8CustomCharArray values*/
+	 for (u8 i = 0 ; i < 8 ; i++)
+	 {
+		 for (u8 j = 0 ; j < 8 ; j++)
+		 {
+			 HLCD_voidWriteData(HLCD_u8CustomCharArray[i][j]);
+ 2ba:	89 91       	ld	r24, Y+
+ 2bc:	0e 94 41 00 	call	0x82	; 0x82 <HLCD_voidWriteData>
+	 HLCD_voidWriteCommand(HLCD_CGRAM_ADDRESS);
+	 
+	 /*fill GCRAM with HLCD_u8CustomCharArray values*/
+	 for (u8 i = 0 ; i < 8 ; i++)
+	 {
+		 for (u8 j = 0 ; j < 8 ; j++)
+ 2c0:	c0 17       	cp	r28, r16
+ 2c2:	d1 07       	cpc	r29, r17
+ 2c4:	d1 f7       	brne	.-12     	; 0x2ba <HLCD_voidInitializeLCD+0xb4>
+ 2c6:	e8 01       	movw	r28, r16
+	  *=============================================================================*/
+	 /*jump to CGRAM address*/
+	 HLCD_voidWriteCommand(HLCD_CGRAM_ADDRESS);
+	 
+	 /*fill GCRAM with HLCD_u8CustomCharArray values*/
+	 for (u8 i = 0 ; i < 8 ; i++)
+ 2c8:	e0 16       	cp	r14, r16
+ 2ca:	f1 06       	cpc	r15, r17
+ 2cc:	21 f0       	breq	.+8      	; 0x2d6 <HLCD_voidInitializeLCD+0xd0>
+ 2ce:	8e 01       	movw	r16, r28
+ 2d0:	08 5f       	subi	r16, 0xF8	; 248
+ 2d2:	1f 4f       	sbci	r17, 0xFF	; 255
+ 2d4:	f2 cf       	rjmp	.-28     	; 0x2ba <HLCD_voidInitializeLCD+0xb4>
+		 }/*end of j loop*/
+	 
+	 }/*end of i loop*/
+	 
+	 /*return to DDRAM address 1*/
+	 HLCD_voidWriteCommand(HLCD_DDRAM_ADD1); 
+ 2d6:	80 e8       	ldi	r24, 0x80	; 128
+ 2d8:	0e 94 a2 00 	call	0x144	; 0x144 <HLCD_voidWriteCommand>
+			 
+ }/*end of HLCD_u8InitializeLCD()*/
+ 2dc:	df 91       	pop	r29
+ 2de:	cf 91       	pop	r28
+ 2e0:	1f 91       	pop	r17
+ 2e2:	0f 91       	pop	r16
+ 2e4:	ff 90       	pop	r15
+ 2e6:	ef 90       	pop	r14
+ 2e8:	08 95       	ret
+
+000002ea <HLCD_voidClearLCD>:
+  * return      : void
+  */
+  void HLCD_voidClearLCD(void)
+  {
+	  /*send Display clear instruction*/
+	  HLCD_voidWriteCommand(HLCD_DISP_CLEAR);      
+ 2ea:	81 e0       	ldi	r24, 0x01	; 1
+ 2ec:	0e 94 a2 00 	call	0x144	; 0x144 <HLCD_voidWriteCommand>
+ 2f0:	08 95       	ret
+
+000002f2 <HLCD_voidReturnHome>:
+  * return      : void
+  */
+  void HLCD_voidReturnHome(void)
+  {
+	  /*send Return home instruction*/
+	  HLCD_voidWriteCommand(HLCD_RET_HOME);
+ 2f2:	82 e0       	ldi	r24, 0x02	; 2
+ 2f4:	0e 94 a2 00 	call	0x144	; 0x144 <HLCD_voidWriteCommand>
+ 2f8:	08 95       	ret
+
+000002fa <HLCD_voidSelectLine>:
+  * return      : void
+  */
+  void HLCD_voidSelectLine(u8 Copy_u8Line)
+  {
+	  /*choose line*/
+	  switch(Copy_u8Line)
+ 2fa:	81 30       	cpi	r24, 0x01	; 1
+ 2fc:	19 f0       	breq	.+6      	; 0x304 <HLCD_voidSelectLine+0xa>
+ 2fe:	82 30       	cpi	r24, 0x02	; 2
+ 300:	29 f0       	breq	.+10     	; 0x30c <HLCD_voidSelectLine+0x12>
+ 302:	08 95       	ret
+	  {
+		  case HLCD_LINE1 : {  HLCD_voidWriteCommand(HLCD_DDRAM_ADD1); } break;
+ 304:	80 e8       	ldi	r24, 0x80	; 128
+ 306:	0e 94 a2 00 	call	0x144	; 0x144 <HLCD_voidWriteCommand>
+ 30a:	08 95       	ret
+		  case HLCD_LINE2 : {  HLCD_voidWriteCommand(HLCD_DDRAM_ADD2); } break;
+ 30c:	80 ec       	ldi	r24, 0xC0	; 192
+ 30e:	0e 94 a2 00 	call	0x144	; 0x144 <HLCD_voidWriteCommand>
+ 312:	08 95       	ret
+
+00000314 <HLCD_voidSetCursorPosition>:
+  * return      : void
+  */
+  void HLCD_voidSetCursorPosition(u8 Copy_u8Line,u8 Copy_u8Position)
+  {
+	  /*choose line*/
+	  switch(Copy_u8Line)
+ 314:	81 30       	cpi	r24, 0x01	; 1
+ 316:	19 f0       	breq	.+6      	; 0x31e <HLCD_voidSetCursorPosition+0xa>
+ 318:	82 30       	cpi	r24, 0x02	; 2
+ 31a:	31 f0       	breq	.+12     	; 0x328 <HLCD_voidSetCursorPosition+0x14>
+ 31c:	08 95       	ret
+	  {
+		  case HLCD_LINE1 : { HLCD_voidWriteCommand(HLCD_DDRAM_ADD1+ Copy_u8Position -1); } break;
+ 31e:	8f e7       	ldi	r24, 0x7F	; 127
+ 320:	86 0f       	add	r24, r22
+ 322:	0e 94 a2 00 	call	0x144	; 0x144 <HLCD_voidWriteCommand>
+ 326:	08 95       	ret
+		  case HLCD_LINE2 : { HLCD_voidWriteCommand(HLCD_DDRAM_ADD2+ Copy_u8Position -1); } break;
+ 328:	8f eb       	ldi	r24, 0xBF	; 191
+ 32a:	86 0f       	add	r24, r22
+ 32c:	0e 94 a2 00 	call	0x144	; 0x144 <HLCD_voidWriteCommand>
+ 330:	08 95       	ret
+
+00000332 <HLCD_voidDisplayChar>:
+  * return      : void
+  */
+  void HLCD_voidDisplayChar(u8 Copy_u8CharData)
+  {
+	  /*check character type*/
+	  if( (Copy_u8CharData >= 0) && (Copy_u8CharData < 10) )
+ 332:	8a 30       	cpi	r24, 0x0A	; 10
+ 334:	20 f4       	brcc	.+8      	; 0x33e <HLCD_voidDisplayChar+0xc>
+	  {
+		  /*if character is number*/
+		  HLCD_voidWriteData((Copy_u8CharData+'0')); 
+ 336:	80 5d       	subi	r24, 0xD0	; 208
+ 338:	0e 94 41 00 	call	0x82	; 0x82 <HLCD_voidWriteData>
+ 33c:	08 95       	ret
+		  
+	  }
+	  else
+	  {
+		  /*if character is char*/
+		  HLCD_voidWriteData(Copy_u8CharData);
+ 33e:	0e 94 41 00 	call	0x82	; 0x82 <HLCD_voidWriteData>
+ 342:	08 95       	ret
+
+00000344 <HLCD_voidDisplayString>:
+  *               - u8 character string
+  *			      Data type: HLCD_NUMBER or HLCD_STRING 
+  * return      : void
+  */
+  void HLCD_voidDisplayString(u32 *Copy_u32StringDataPtr,u8 Copy_u8DataType) 
+  {
+ 344:	bf 92       	push	r11
+ 346:	cf 92       	push	r12
+ 348:	df 92       	push	r13
+ 34a:	ef 92       	push	r14
+ 34c:	ff 92       	push	r15
+ 34e:	0f 93       	push	r16
+ 350:	1f 93       	push	r17
+ 352:	cf 93       	push	r28
+ 354:	df 93       	push	r29
+ 356:	ec 01       	movw	r28, r24
+	  u32 Local_u32NumberValue = 0;
+	  /*remainder used in number display calculations*/
+	  u32 Local_u32Remainder   = 0;
+	  
+	  /*check data type*/
+	  if (Copy_u8DataType == HLCD_NUMBER) /*number type check*/
+ 358:	61 11       	cpse	r22, r1
+ 35a:	48 c0       	rjmp	.+144    	; 0x3ec <HLCD_voidDisplayString+0xa8>
+	  {
+		  /*store number value to be displayed*/
+		  Local_u32NumberValue = *Copy_u32StringDataPtr;
+ 35c:	c8 80       	ld	r12, Y
+ 35e:	d9 80       	ldd	r13, Y+1	; 0x01
+ 360:	ea 80       	ldd	r14, Y+2	; 0x02
+ 362:	fb 80       	ldd	r15, Y+3	; 0x03
+		  
+		  
+		  /*if number is zero*/
+		  if (Local_u32NumberValue == 0)
+ 364:	c1 14       	cp	r12, r1
+ 366:	d1 04       	cpc	r13, r1
+ 368:	e1 04       	cpc	r14, r1
+ 36a:	f1 04       	cpc	r15, r1
+ 36c:	21 f4       	brne	.+8      	; 0x376 <HLCD_voidDisplayString+0x32>
+		  {
+			  /*display zero*/
+			  HLCD_voidDisplayChar(Local_u8Digit);
+ 36e:	80 e0       	ldi	r24, 0x00	; 0
+ 370:	0e 94 99 01 	call	0x332	; 0x332 <HLCD_voidDisplayChar>
+ 374:	46 c0       	rjmp	.+140    	; 0x402 <__LOCK_REGION_LENGTH__+0x2>
+ 376:	d0 e0       	ldi	r29, 0x00	; 0
+		  {
+			  /*loop each digit in number*/
+			  for (u8 i=0;i<10;i++)
+			  {
+				  /*check if that digit 10^i exists starting from 10th digit until first existent digit reached*/
+				  if ( (Local_u32NumberValue / LMATH_u32GetExponential( 10 , (9-i))) != 0)
+ 378:	19 e0       	ldi	r17, 0x09	; 9
+ 37a:	c1 2f       	mov	r28, r17
+ 37c:	cd 1b       	sub	r28, r29
+ 37e:	6c 2f       	mov	r22, r28
+ 380:	8a e0       	ldi	r24, 0x0A	; 10
+ 382:	0e 94 b1 02 	call	0x562	; 0x562 <LMATH_u32GetExponential>
+ 386:	9b 01       	movw	r18, r22
+ 388:	ac 01       	movw	r20, r24
+ 38a:	c7 01       	movw	r24, r14
+ 38c:	b6 01       	movw	r22, r12
+ 38e:	0e 94 e9 04 	call	0x9d2	; 0x9d2 <__udivmodsi4>
+ 392:	23 2b       	or	r18, r19
+ 394:	24 2b       	or	r18, r20
+ 396:	25 2b       	or	r18, r21
+ 398:	29 f1       	breq	.+74     	; 0x3e4 <HLCD_voidDisplayString+0xa0>
+				  {
+					  /*if first digit found loop number digits*/
+					  for (u8 j=i;j<10;j++)
+ 39a:	da 30       	cpi	r29, 0x0A	; 10
+ 39c:	90 f5       	brcc	.+100    	; 0x402 <__LOCK_REGION_LENGTH__+0x2>
+					  {
+						  /*get current value and display it*/
+						  /*calculate remaining digits to be displayed*/
+						  Local_u32Remainder   = Local_u32NumberValue % LMATH_u32GetExponential(10,(9-j));
+ 39e:	6c 2f       	mov	r22, r28
+ 3a0:	8a e0       	ldi	r24, 0x0A	; 10
+ 3a2:	0e 94 b1 02 	call	0x562	; 0x562 <LMATH_u32GetExponential>
+ 3a6:	9b 01       	movw	r18, r22
+ 3a8:	ac 01       	movw	r20, r24
+ 3aa:	c7 01       	movw	r24, r14
+ 3ac:	b6 01       	movw	r22, r12
+ 3ae:	0e 94 e9 04 	call	0x9d2	; 0x9d2 <__udivmodsi4>
+ 3b2:	b6 2e       	mov	r11, r22
+ 3b4:	07 2f       	mov	r16, r23
+ 3b6:	18 2f       	mov	r17, r24
+ 3b8:	d9 2f       	mov	r29, r25
+						  /*calculate current digit*/
+						  Local_u8Digit        = Local_u32NumberValue / LMATH_u32GetExponential(10,(9-j));
+ 3ba:	6c 2f       	mov	r22, r28
+ 3bc:	8a e0       	ldi	r24, 0x0A	; 10
+ 3be:	0e 94 b1 02 	call	0x562	; 0x562 <LMATH_u32GetExponential>
+ 3c2:	9b 01       	movw	r18, r22
+ 3c4:	ac 01       	movw	r20, r24
+						  /*prepare number value with remaining digits*/
+						  Local_u32NumberValue = Local_u32Remainder;
+						  /*display current digit*/
+						  HLCD_voidDisplayChar(Local_u8Digit);
+ 3c6:	c7 01       	movw	r24, r14
+ 3c8:	b6 01       	movw	r22, r12
+ 3ca:	0e 94 e9 04 	call	0x9d2	; 0x9d2 <__udivmodsi4>
+ 3ce:	82 2f       	mov	r24, r18
+ 3d0:	0e 94 99 01 	call	0x332	; 0x332 <HLCD_voidDisplayChar>
+ 3d4:	c1 50       	subi	r28, 0x01	; 1
+						  /*calculate remaining digits to be displayed*/
+						  Local_u32Remainder   = Local_u32NumberValue % LMATH_u32GetExponential(10,(9-j));
+						  /*calculate current digit*/
+						  Local_u8Digit        = Local_u32NumberValue / LMATH_u32GetExponential(10,(9-j));
+						  /*prepare number value with remaining digits*/
+						  Local_u32NumberValue = Local_u32Remainder;
+ 3d6:	cb 2c       	mov	r12, r11
+ 3d8:	d0 2e       	mov	r13, r16
+ 3da:	e1 2e       	mov	r14, r17
+ 3dc:	fd 2e       	mov	r15, r29
+			  {
+				  /*check if that digit 10^i exists starting from 10th digit until first existent digit reached*/
+				  if ( (Local_u32NumberValue / LMATH_u32GetExponential( 10 , (9-i))) != 0)
+				  {
+					  /*if first digit found loop number digits*/
+					  for (u8 j=i;j<10;j++)
+ 3de:	cf 3f       	cpi	r28, 0xFF	; 255
+ 3e0:	f1 f6       	brne	.-68     	; 0x39e <HLCD_voidDisplayString+0x5a>
+ 3e2:	0f c0       	rjmp	.+30     	; 0x402 <__LOCK_REGION_LENGTH__+0x2>
+			  
+		  }
+		  else
+		  {
+			  /*loop each digit in number*/
+			  for (u8 i=0;i<10;i++)
+ 3e4:	df 5f       	subi	r29, 0xFF	; 255
+ 3e6:	da 30       	cpi	r29, 0x0A	; 10
+ 3e8:	41 f6       	brne	.-112    	; 0x37a <HLCD_voidDisplayString+0x36>
+ 3ea:	0b c0       	rjmp	.+22     	; 0x402 <__LOCK_REGION_LENGTH__+0x2>
+		  }/*end of zero check*/
+		  
+		  
+		  
+	  }
+	  else if(Copy_u8DataType == HLCD_STRING)/*string type check*/
+ 3ec:	61 30       	cpi	r22, 0x01	; 1
+ 3ee:	49 f4       	brne	.+18     	; 0x402 <__LOCK_REGION_LENGTH__+0x2>
+	  {
+		  /*check if null char reached*/
+		  while(*Local_u8StringData!='\0')
+ 3f0:	88 81       	ld	r24, Y
+ 3f2:	88 23       	and	r24, r24
+ 3f4:	31 f0       	breq	.+12     	; 0x402 <__LOCK_REGION_LENGTH__+0x2>
+ 3f6:	21 96       	adiw	r28, 0x01	; 1
+		  {
+			  /*display current char in string*/
+			  HLCD_voidDisplayChar(*Local_u8StringData++);
+ 3f8:	0e 94 99 01 	call	0x332	; 0x332 <HLCD_voidDisplayChar>
+		  
+	  }
+	  else if(Copy_u8DataType == HLCD_STRING)/*string type check*/
+	  {
+		  /*check if null char reached*/
+		  while(*Local_u8StringData!='\0')
+ 3fc:	89 91       	ld	r24, Y+
+ 3fe:	81 11       	cpse	r24, r1
+ 400:	fb cf       	rjmp	.-10     	; 0x3f8 <HLCD_voidDisplayString+0xb4>
+		  
+		  }/*end of string loop*/
+	  
+	  }/*end of type check*/
+	  
+ }/*end of */
+ 402:	df 91       	pop	r29
+ 404:	cf 91       	pop	r28
+ 406:	1f 91       	pop	r17
+ 408:	0f 91       	pop	r16
+ 40a:	ff 90       	pop	r15
+ 40c:	ef 90       	pop	r14
+ 40e:	df 90       	pop	r13
+ 410:	cf 90       	pop	r12
+ 412:	bf 90       	pop	r11
+ 414:	08 95       	ret
+
+00000416 <HLCD_voidShiftRight>:
+  * return      : void  
+  */
+  void HLCD_voidShiftRight(void)
+  {
+	  /*send shift right instruction*/
+	  HLCD_voidWriteCommand(HLCD_DISP_SHIFT_RIGHT); 
+ 416:	8c e1       	ldi	r24, 0x1C	; 28
+ 418:	0e 94 a2 00 	call	0x144	; 0x144 <HLCD_voidWriteCommand>
+ 41c:	08 95       	ret
+
+0000041e <HLCD_voidShiftLeft>:
+  * return      : void  
+  */
+  void HLCD_voidShiftLeft(void) 
+  {
+	 /*send shift left instruction*/ 
+	 HLCD_voidWriteCommand(HLCD_DISP_SHIFT_LEFT); 
+ 41e:	88 e1       	ldi	r24, 0x18	; 24
+ 420:	0e 94 a2 00 	call	0x144	; 0x144 <HLCD_voidWriteCommand>
+ 424:	08 95       	ret
+
+00000426 <HLCD_voidCursorShiftRight>:
+  * Description : shift cursor position number of steps right
+  * Arguments   : Number of Steps
+  * return      : void  
+  */
+  void HLCD_voidCursorShiftRight(u8 Copy_u8Steps) 
+  {
+ 426:	cf 93       	push	r28
+ 428:	df 93       	push	r29
+	  /*loop steps*/
+	  for(u8 i = 0 ; i < Copy_u8Steps ; i++)
+ 42a:	88 23       	and	r24, r24
+ 42c:	41 f0       	breq	.+16     	; 0x43e <HLCD_voidCursorShiftRight+0x18>
+ 42e:	d8 2f       	mov	r29, r24
+ 430:	c0 e0       	ldi	r28, 0x00	; 0
+	  {
+		  /*Shift cursor one step right instruction*/
+		  HLCD_voidWriteCommand(HLCD_CURSOR_SHIFT_RIGHT); 
+ 432:	84 e1       	ldi	r24, 0x14	; 20
+ 434:	0e 94 a2 00 	call	0x144	; 0x144 <HLCD_voidWriteCommand>
+  * return      : void  
+  */
+  void HLCD_voidCursorShiftRight(u8 Copy_u8Steps) 
+  {
+	  /*loop steps*/
+	  for(u8 i = 0 ; i < Copy_u8Steps ; i++)
+ 438:	cf 5f       	subi	r28, 0xFF	; 255
+ 43a:	dc 13       	cpse	r29, r28
+ 43c:	fa cf       	rjmp	.-12     	; 0x432 <HLCD_voidCursorShiftRight+0xc>
+		  /*Shift cursor one step right instruction*/
+		  HLCD_voidWriteCommand(HLCD_CURSOR_SHIFT_RIGHT); 
+		  
+	  }/*end of steps for loop*/
+	  
+  }/*end of HLCD_voidCursorShiftRight()*/
+ 43e:	df 91       	pop	r29
+ 440:	cf 91       	pop	r28
+ 442:	08 95       	ret
+
+00000444 <HLCD_voidCursorShiftLeft>:
+  * Description : shift cursor position number of steps Left
+  * Arguments   : Number of Steps
+  * return      : void  
+  */
+  void HLCD_voidCursorShiftLeft(u8 Copy_u8Steps) 
+  {
+ 444:	cf 93       	push	r28
+ 446:	df 93       	push	r29
+	  /*loop steps*/
+	  for(u8 i = 0 ; i < Copy_u8Steps ; i++)
+ 448:	88 23       	and	r24, r24
+ 44a:	41 f0       	breq	.+16     	; 0x45c <HLCD_voidCursorShiftLeft+0x18>
+ 44c:	d8 2f       	mov	r29, r24
+ 44e:	c0 e0       	ldi	r28, 0x00	; 0
+	  {
+		  /*Shift cursor one step Left instruction*/
+		  HLCD_voidWriteCommand(HLCD_CURSOR_SHIFT_LEFT); 
+ 450:	80 e1       	ldi	r24, 0x10	; 16
+ 452:	0e 94 a2 00 	call	0x144	; 0x144 <HLCD_voidWriteCommand>
+  * return      : void  
+  */
+  void HLCD_voidCursorShiftLeft(u8 Copy_u8Steps) 
+  {
+	  /*loop steps*/
+	  for(u8 i = 0 ; i < Copy_u8Steps ; i++)
+ 456:	cf 5f       	subi	r28, 0xFF	; 255
+ 458:	dc 13       	cpse	r29, r28
+ 45a:	fa cf       	rjmp	.-12     	; 0x450 <HLCD_voidCursorShiftLeft+0xc>
+		  /*Shift cursor one step Left instruction*/
+		  HLCD_voidWriteCommand(HLCD_CURSOR_SHIFT_LEFT); 
+		  
+	  }/*end of steps for loop*/
+	  
+  }/*end of HLCD_voidCursorShiftLeft()*/
+ 45c:	df 91       	pop	r29
+ 45e:	cf 91       	pop	r28
+ 460:	08 95       	ret
+
+00000462 <HLCD_voidCursorDisplayOnOff>:
+  * return      : void  
+  */
+  void HLCD_voidCursorDisplayOnOff(u8 Copy_u8Status)
+  {
+	  /*Set Display status value (on or off)*/
+	  L_UTILS_SET_BIT_VALUE(DisplayAndCursorCommand,HLCD_CURSOR_BIT,Copy_u8Status);
+ 462:	81 11       	cpse	r24, r1
+ 464:	06 c0       	rjmp	.+12     	; 0x472 <HLCD_voidCursorDisplayOnOff+0x10>
+ 466:	80 91 61 00 	lds	r24, 0x0061	; 0x800061 <DisplayAndCursorCommand>
+ 46a:	8d 7f       	andi	r24, 0xFD	; 253
+ 46c:	80 93 61 00 	sts	0x0061, r24	; 0x800061 <DisplayAndCursorCommand>
+ 470:	05 c0       	rjmp	.+10     	; 0x47c <HLCD_voidCursorDisplayOnOff+0x1a>
+ 472:	80 91 61 00 	lds	r24, 0x0061	; 0x800061 <DisplayAndCursorCommand>
+ 476:	82 60       	ori	r24, 0x02	; 2
+ 478:	80 93 61 00 	sts	0x0061, r24	; 0x800061 <DisplayAndCursorCommand>
+	  /*Send command*/
+	  HLCD_voidWriteCommand(DisplayAndCursorCommand);
+ 47c:	80 91 61 00 	lds	r24, 0x0061	; 0x800061 <DisplayAndCursorCommand>
+ 480:	0e 94 a2 00 	call	0x144	; 0x144 <HLCD_voidWriteCommand>
+ 484:	08 95       	ret
+
+00000486 <HLCD_voidCursorBlinkOnOff>:
+  * return      : void  
+  */
+  void HLCD_voidCursorBlinkOnOff(u8 Copy_u8Status) 
+  {
+	  /*Set Cursor status value (on or off)*/
+	  L_UTILS_SET_BIT_VALUE(DisplayAndCursorCommand,HLCD_BLINK_BIT,Copy_u8Status);
+ 486:	81 11       	cpse	r24, r1
+ 488:	06 c0       	rjmp	.+12     	; 0x496 <HLCD_voidCursorBlinkOnOff+0x10>
+ 48a:	80 91 61 00 	lds	r24, 0x0061	; 0x800061 <DisplayAndCursorCommand>
+ 48e:	8e 7f       	andi	r24, 0xFE	; 254
+ 490:	80 93 61 00 	sts	0x0061, r24	; 0x800061 <DisplayAndCursorCommand>
+ 494:	05 c0       	rjmp	.+10     	; 0x4a0 <HLCD_voidCursorBlinkOnOff+0x1a>
+ 496:	80 91 61 00 	lds	r24, 0x0061	; 0x800061 <DisplayAndCursorCommand>
+ 49a:	81 60       	ori	r24, 0x01	; 1
+ 49c:	80 93 61 00 	sts	0x0061, r24	; 0x800061 <DisplayAndCursorCommand>
+	  /*Send command*/
+	  HLCD_voidWriteCommand(DisplayAndCursorCommand);
+ 4a0:	80 91 61 00 	lds	r24, 0x0061	; 0x800061 <DisplayAndCursorCommand>
+ 4a4:	0e 94 a2 00 	call	0x144	; 0x144 <HLCD_voidWriteCommand>
+ 4a8:	08 95       	ret
+
+000004aa <HLCD_voidScreenDisplayOnOff>:
+  * return      : void  
+  */
+  void HLCD_voidScreenDisplayOnOff(u8 Copy_u8Status) 
+  {
+	  /*Set Display status value (on or off)*/
+	  L_UTILS_SET_BIT_VALUE(DisplayAndCursorCommand,HLCD_DISP_BIT,Copy_u8Status);
+ 4aa:	81 11       	cpse	r24, r1
+ 4ac:	06 c0       	rjmp	.+12     	; 0x4ba <HLCD_voidScreenDisplayOnOff+0x10>
+ 4ae:	80 91 61 00 	lds	r24, 0x0061	; 0x800061 <DisplayAndCursorCommand>
+ 4b2:	8b 7f       	andi	r24, 0xFB	; 251
+ 4b4:	80 93 61 00 	sts	0x0061, r24	; 0x800061 <DisplayAndCursorCommand>
+ 4b8:	05 c0       	rjmp	.+10     	; 0x4c4 <HLCD_voidScreenDisplayOnOff+0x1a>
+ 4ba:	80 91 61 00 	lds	r24, 0x0061	; 0x800061 <DisplayAndCursorCommand>
+ 4be:	84 60       	ori	r24, 0x04	; 4
+ 4c0:	80 93 61 00 	sts	0x0061, r24	; 0x800061 <DisplayAndCursorCommand>
+	  /*Send command*/
+	  HLCD_voidWriteCommand(DisplayAndCursorCommand);
+ 4c4:	80 91 61 00 	lds	r24, 0x0061	; 0x800061 <DisplayAndCursorCommand>
+ 4c8:	0e 94 a2 00 	call	0x144	; 0x144 <HLCD_voidWriteCommand>
+ 4cc:	08 95       	ret
+
+000004ce <HLCD_voidDisplayCustomChar>:
+  * return      : void  
+  */
+  void HLCD_voidDisplayCustomChar(u8 Copy_SlotNumber)
+  {
+	  /*slot in range check*/
+	  if ( (Copy_SlotNumber >= 0) && (Copy_SlotNumber<8) )
+ 4ce:	88 30       	cpi	r24, 0x08	; 8
+ 4d0:	10 f4       	brcc	.+4      	; 0x4d6 <HLCD_voidDisplayCustomChar+0x8>
+	  {
+		  /*Display Custom character in that slot*/
+		  HLCD_voidWriteData(Copy_SlotNumber);
+ 4d2:	0e 94 41 00 	call	0x82	; 0x82 <HLCD_voidWriteData>
+ 4d6:	08 95       	ret
+
+000004d8 <LDelay_voidDelay_ms>:
+ * Description : create time delay in milliseconds
+ * Arguments   : time in milliseconds                   
+ * return      : void  
+ */
+void LDelay_voidDelay_ms(u32 Copy_u32Time_ms)
+{
+ 4d8:	8f 92       	push	r8
+ 4da:	9f 92       	push	r9
+ 4dc:	af 92       	push	r10
+ 4de:	bf 92       	push	r11
+ 4e0:	cf 92       	push	r12
+ 4e2:	df 92       	push	r13
+ 4e4:	ef 92       	push	r14
+ 4e6:	ff 92       	push	r15
+ 4e8:	0f 93       	push	r16
+ 4ea:	9b 01       	movw	r18, r22
+ 4ec:	ac 01       	movw	r20, r24
+	/*calculate net time(minus time spent in calculation processing)*/
+	Copy_u32Time_ms = (Copy_u32Time_ms * 100000)-(LDELAY_CalculationTime + LDELAY_ContextSwitch);
+ 4ee:	60 ea       	ldi	r22, 0xA0	; 160
+ 4f0:	76 e8       	ldi	r23, 0x86	; 134
+ 4f2:	81 e0       	ldi	r24, 0x01	; 1
+ 4f4:	90 e0       	ldi	r25, 0x00	; 0
+ 4f6:	0e 94 d9 04 	call	0x9b2	; 0x9b2 <__mulsi3>
+	/*calculate number of iterations in busy loop*/
+	u32 Local_u32NoLoops = Copy_u32Time_ms/LDELAY_LoopTime;
+ 4fa:	66 56       	subi	r22, 0x66	; 102
+ 4fc:	79 40       	sbci	r23, 0x09	; 9
+ 4fe:	81 09       	sbc	r24, r1
+ 500:	91 09       	sbc	r25, r1
+ 502:	29 eb       	ldi	r18, 0xB9	; 185
+ 504:	35 e7       	ldi	r19, 0x75	; 117
+ 506:	49 e7       	ldi	r20, 0x79	; 121
+ 508:	57 e0       	ldi	r21, 0x07	; 7
+ 50a:	0e 94 16 05 	call	0xa2c	; 0xa2c <__umulsidi3>
+ 50e:	00 e2       	ldi	r16, 0x20	; 32
+ 510:	0e 94 43 05 	call	0xa86	; 0xa86 <__lshrdi3>
+ 514:	82 2e       	mov	r8, r18
+ 516:	93 2e       	mov	r9, r19
+ 518:	a4 2e       	mov	r10, r20
+ 51a:	b5 2e       	mov	r11, r21
+ 51c:	b6 94       	lsr	r11
+ 51e:	a7 94       	ror	r10
+ 520:	97 94       	ror	r9
+ 522:	87 94       	ror	r8
+ 524:	b6 94       	lsr	r11
+ 526:	a7 94       	ror	r10
+ 528:	97 94       	ror	r9
+ 52a:	87 94       	ror	r8
+	
+	/*crate busy loop*/
+	for(u32 i=0;i<Local_u32NoLoops;i++)
+ 52c:	81 14       	cp	r8, r1
+ 52e:	91 04       	cpc	r9, r1
+ 530:	a1 04       	cpc	r10, r1
+ 532:	b1 04       	cpc	r11, r1
+ 534:	61 f0       	breq	.+24     	; 0x54e <LDelay_voidDelay_ms+0x76>
+ 536:	80 e0       	ldi	r24, 0x00	; 0
+ 538:	90 e0       	ldi	r25, 0x00	; 0
+ 53a:	dc 01       	movw	r26, r24
+	{
+		/*no operation assembly line*/
+		asm("NOP");
+ 53c:	00 00       	nop
+	Copy_u32Time_ms = (Copy_u32Time_ms * 100000)-(LDELAY_CalculationTime + LDELAY_ContextSwitch);
+	/*calculate number of iterations in busy loop*/
+	u32 Local_u32NoLoops = Copy_u32Time_ms/LDELAY_LoopTime;
+	
+	/*crate busy loop*/
+	for(u32 i=0;i<Local_u32NoLoops;i++)
+ 53e:	01 96       	adiw	r24, 0x01	; 1
+ 540:	a1 1d       	adc	r26, r1
+ 542:	b1 1d       	adc	r27, r1
+ 544:	88 16       	cp	r8, r24
+ 546:	99 06       	cpc	r9, r25
+ 548:	aa 06       	cpc	r10, r26
+ 54a:	bb 06       	cpc	r11, r27
+ 54c:	b9 f7       	brne	.-18     	; 0x53c <LDelay_voidDelay_ms+0x64>
+	{
+		/*no operation assembly line*/
+		asm("NOP");
+	}/*end of busy loop*/
+	
+}/*end of LDelay_voidDelay_ms()*/
+ 54e:	0f 91       	pop	r16
+ 550:	ff 90       	pop	r15
+ 552:	ef 90       	pop	r14
+ 554:	df 90       	pop	r13
+ 556:	cf 90       	pop	r12
+ 558:	bf 90       	pop	r11
+ 55a:	af 90       	pop	r10
+ 55c:	9f 90       	pop	r9
+ 55e:	8f 90       	pop	r8
+ 560:	08 95       	ret
+
+00000562 <LMATH_u32GetExponential>:
+ * Description : module that calculate exponential value for a given base and exponent numbers   
+ * Argument    : exponent, base
+ * return      : exponential value
+ */
+u32 LMATH_u32GetExponential(u8 Copy_u8LBase, u8 Copy_u8LExponent)
+{
+ 562:	cf 92       	push	r12
+ 564:	df 92       	push	r13
+ 566:	ef 92       	push	r14
+ 568:	ff 92       	push	r15
+ 56a:	c8 2e       	mov	r12, r24
+ 56c:	f6 2f       	mov	r31, r22
+    u32 Local_u32Result = 1;
+    for(u8 i =0; i<Copy_u8LExponent;i++)
+ 56e:	66 23       	and	r22, r22
+ 570:	91 f0       	breq	.+36     	; 0x596 <LMATH_u32GetExponential+0x34>
+ 572:	e0 e0       	ldi	r30, 0x00	; 0
+ 574:	61 e0       	ldi	r22, 0x01	; 1
+ 576:	70 e0       	ldi	r23, 0x00	; 0
+ 578:	80 e0       	ldi	r24, 0x00	; 0
+ 57a:	90 e0       	ldi	r25, 0x00	; 0
+    {
+        Local_u32Result *= Copy_u8LBase;
+ 57c:	d1 2c       	mov	r13, r1
+ 57e:	e1 2c       	mov	r14, r1
+ 580:	f1 2c       	mov	r15, r1
+ 582:	9b 01       	movw	r18, r22
+ 584:	ac 01       	movw	r20, r24
+ 586:	c7 01       	movw	r24, r14
+ 588:	b6 01       	movw	r22, r12
+ 58a:	0e 94 d9 04 	call	0x9b2	; 0x9b2 <__mulsi3>
+ * return      : exponential value
+ */
+u32 LMATH_u32GetExponential(u8 Copy_u8LBase, u8 Copy_u8LExponent)
+{
+    u32 Local_u32Result = 1;
+    for(u8 i =0; i<Copy_u8LExponent;i++)
+ 58e:	ef 5f       	subi	r30, 0xFF	; 255
+ 590:	fe 13       	cpse	r31, r30
+ 592:	f7 cf       	rjmp	.-18     	; 0x582 <LMATH_u32GetExponential+0x20>
+ 594:	04 c0       	rjmp	.+8      	; 0x59e <LMATH_u32GetExponential+0x3c>
+ * Argument    : exponent, base
+ * return      : exponential value
+ */
+u32 LMATH_u32GetExponential(u8 Copy_u8LBase, u8 Copy_u8LExponent)
+{
+    u32 Local_u32Result = 1;
+ 596:	61 e0       	ldi	r22, 0x01	; 1
+ 598:	70 e0       	ldi	r23, 0x00	; 0
+ 59a:	80 e0       	ldi	r24, 0x00	; 0
+ 59c:	90 e0       	ldi	r25, 0x00	; 0
+    for(u8 i =0; i<Copy_u8LExponent;i++)
+    {
+        Local_u32Result *= Copy_u8LBase;
+    }
+    return Local_u32Result;
+}
+ 59e:	ff 90       	pop	r15
+ 5a0:	ef 90       	pop	r14
+ 5a2:	df 90       	pop	r13
+ 5a4:	cf 90       	pop	r12
+ 5a6:	08 95       	ret
+
+000005a8 <main>:
+#include "LSTD_Types.h"
+#include "HLCD_Interface.h"
+#include "LDELAY_Interface.h"
+
+int main(void)
+{
+ 5a8:	cf 93       	push	r28
+ 5aa:	df 93       	push	r29
+ 5ac:	00 d0       	rcall	.+0      	; 0x5ae <main+0x6>
+ 5ae:	00 d0       	rcall	.+0      	; 0x5b0 <main+0x8>
+ 5b0:	cd b7       	in	r28, 0x3d	; 61
+ 5b2:	de b7       	in	r29, 0x3e	; 62
+	/*initialize LCD*/
+	HLCD_voidInitializeLCD();
+ 5b4:	0e 94 03 01 	call	0x206	; 0x206 <HLCD_voidInitializeLCD>
+	/*Number to display*/
+	u32 num = 4556545;
+ 5b8:	81 e0       	ldi	r24, 0x01	; 1
+ 5ba:	97 e8       	ldi	r25, 0x87	; 135
+ 5bc:	a5 e4       	ldi	r26, 0x45	; 69
+ 5be:	b0 e0       	ldi	r27, 0x00	; 0
+ 5c0:	89 83       	std	Y+1, r24	; 0x01
+ 5c2:	9a 83       	std	Y+2, r25	; 0x02
+ 5c4:	ab 83       	std	Y+3, r26	; 0x03
+ 5c6:	bc 83       	std	Y+4, r27	; 0x04
+	
+	/*infinite loop*/
+	while (1) 
+    {
+		/*clear LCD and return to first location*/
+		HLCD_voidClearLCD();
+ 5c8:	0e 94 75 01 	call	0x2ea	; 0x2ea <HLCD_voidClearLCD>
+		/*switch display off*/
+		HLCD_voidScreenDisplayOnOff(HLCD_OFF);
+ 5cc:	80 e0       	ldi	r24, 0x00	; 0
+ 5ce:	0e 94 55 02 	call	0x4aa	; 0x4aa <HLCD_voidScreenDisplayOnOff>
+		/*wait for 2 seconds*/
+		LDelay_voidDelay_ms(2000);
+ 5d2:	60 ed       	ldi	r22, 0xD0	; 208
+ 5d4:	77 e0       	ldi	r23, 0x07	; 7
+ 5d6:	80 e0       	ldi	r24, 0x00	; 0
+ 5d8:	90 e0       	ldi	r25, 0x00	; 0
+ 5da:	0e 94 6c 02 	call	0x4d8	; 0x4d8 <LDelay_voidDelay_ms>
+		/*switch display on*/
+		HLCD_voidScreenDisplayOnOff(HLCD_ON);
+ 5de:	81 e0       	ldi	r24, 0x01	; 1
+ 5e0:	0e 94 55 02 	call	0x4aa	; 0x4aa <HLCD_voidScreenDisplayOnOff>
+		/*wait for 1 second*/
+		LDelay_voidDelay_ms(1000);
+ 5e4:	68 ee       	ldi	r22, 0xE8	; 232
+ 5e6:	73 e0       	ldi	r23, 0x03	; 3
+ 5e8:	80 e0       	ldi	r24, 0x00	; 0
+ 5ea:	90 e0       	ldi	r25, 0x00	; 0
+ 5ec:	0e 94 6c 02 	call	0x4d8	; 0x4d8 <LDelay_voidDelay_ms>
+		/*stop cursor blinking and hide cursor*/
+		HLCD_voidCursorDisplayOnOff(HLCD_OFF);
+ 5f0:	80 e0       	ldi	r24, 0x00	; 0
+ 5f2:	0e 94 31 02 	call	0x462	; 0x462 <HLCD_voidCursorDisplayOnOff>
+		HLCD_voidCursorBlinkOnOff(HLCD_OFF);
+ 5f6:	80 e0       	ldi	r24, 0x00	; 0
+ 5f8:	0e 94 43 02 	call	0x486	; 0x486 <HLCD_voidCursorBlinkOnOff>
+		/*wait for 1 second*/
+		LDelay_voidDelay_ms(1000);
+ 5fc:	68 ee       	ldi	r22, 0xE8	; 232
+ 5fe:	73 e0       	ldi	r23, 0x03	; 3
+ 600:	80 e0       	ldi	r24, 0x00	; 0
+ 602:	90 e0       	ldi	r25, 0x00	; 0
+ 604:	0e 94 6c 02 	call	0x4d8	; 0x4d8 <LDelay_voidDelay_ms>
+		/*Display a character on LCD*/
+		HLCD_voidDisplayChar('a');
+ 608:	81 e6       	ldi	r24, 0x61	; 97
+ 60a:	0e 94 99 01 	call	0x332	; 0x332 <HLCD_voidDisplayChar>
+		/*wait for 1 second*/
+		LDelay_voidDelay_ms(1000);
+ 60e:	68 ee       	ldi	r22, 0xE8	; 232
+ 610:	73 e0       	ldi	r23, 0x03	; 3
+ 612:	80 e0       	ldi	r24, 0x00	; 0
+ 614:	90 e0       	ldi	r25, 0x00	; 0
+ 616:	0e 94 6c 02 	call	0x4d8	; 0x4d8 <LDelay_voidDelay_ms>
+		/*Display second custom character on LCD*/
+		HLCD_voidDisplayCustomChar(HLCD_CUST_CHAR_2);
+ 61a:	81 e0       	ldi	r24, 0x01	; 1
+ 61c:	0e 94 67 02 	call	0x4ce	; 0x4ce <HLCD_voidDisplayCustomChar>
+		/*wait for 1 second*/
+		LDelay_voidDelay_ms(1000);
+ 620:	68 ee       	ldi	r22, 0xE8	; 232
+ 622:	73 e0       	ldi	r23, 0x03	; 3
+ 624:	80 e0       	ldi	r24, 0x00	; 0
+ 626:	90 e0       	ldi	r25, 0x00	; 0
+ 628:	0e 94 6c 02 	call	0x4d8	; 0x4d8 <LDelay_voidDelay_ms>
+		/*Display string*/
+		HLCD_voidDisplayString("Test",HLCD_STRING);
+ 62c:	61 e0       	ldi	r22, 0x01	; 1
+ 62e:	82 ea       	ldi	r24, 0xA2	; 162
+ 630:	90 e0       	ldi	r25, 0x00	; 0
+ 632:	0e 94 a2 01 	call	0x344	; 0x344 <HLCD_voidDisplayString>
+		/*wait for 1 second*/
+		LDelay_voidDelay_ms(1000);
+ 636:	68 ee       	ldi	r22, 0xE8	; 232
+ 638:	73 e0       	ldi	r23, 0x03	; 3
+ 63a:	80 e0       	ldi	r24, 0x00	; 0
+ 63c:	90 e0       	ldi	r25, 0x00	; 0
+ 63e:	0e 94 6c 02 	call	0x4d8	; 0x4d8 <LDelay_voidDelay_ms>
+		/*move cursor to second line digit number 5*/
+		HLCD_voidSetCursorPosition(HLCD_LINE2,5);
+ 642:	65 e0       	ldi	r22, 0x05	; 5
+ 644:	82 e0       	ldi	r24, 0x02	; 2
+ 646:	0e 94 8a 01 	call	0x314	; 0x314 <HLCD_voidSetCursorPosition>
+		/*wait for 1 second*/
+		LDelay_voidDelay_ms(1000);
+ 64a:	68 ee       	ldi	r22, 0xE8	; 232
+ 64c:	73 e0       	ldi	r23, 0x03	; 3
+ 64e:	80 e0       	ldi	r24, 0x00	; 0
+ 650:	90 e0       	ldi	r25, 0x00	; 0
+ 652:	0e 94 6c 02 	call	0x4d8	; 0x4d8 <LDelay_voidDelay_ms>
+		/*Display number 4556545 on LCD*/
+		HLCD_voidDisplayString(&num,HLCD_NUMBER);
+ 656:	60 e0       	ldi	r22, 0x00	; 0
+ 658:	ce 01       	movw	r24, r28
+ 65a:	01 96       	adiw	r24, 0x01	; 1
+ 65c:	0e 94 a2 01 	call	0x344	; 0x344 <HLCD_voidDisplayString>
+		/*wait for 1 second*/
+		LDelay_voidDelay_ms(1000);
+ 660:	68 ee       	ldi	r22, 0xE8	; 232
+ 662:	73 e0       	ldi	r23, 0x03	; 3
+ 664:	80 e0       	ldi	r24, 0x00	; 0
+ 666:	90 e0       	ldi	r25, 0x00	; 0
+ 668:	0e 94 6c 02 	call	0x4d8	; 0x4d8 <LDelay_voidDelay_ms>
+		/*Move to second line first cell*/
+		HLCD_voidSelectLine(HLCD_LINE2);
+ 66c:	82 e0       	ldi	r24, 0x02	; 2
+ 66e:	0e 94 7d 01 	call	0x2fa	; 0x2fa <HLCD_voidSelectLine>
+		/*wait for 1 second*/
+		LDelay_voidDelay_ms(1000);
+ 672:	68 ee       	ldi	r22, 0xE8	; 232
+ 674:	73 e0       	ldi	r23, 0x03	; 3
+ 676:	80 e0       	ldi	r24, 0x00	; 0
+ 678:	90 e0       	ldi	r25, 0x00	; 0
+ 67a:	0e 94 6c 02 	call	0x4d8	; 0x4d8 <LDelay_voidDelay_ms>
+		/*display c on LCD*/
+		HLCD_voidDisplayChar('c');
+ 67e:	83 e6       	ldi	r24, 0x63	; 99
+ 680:	0e 94 99 01 	call	0x332	; 0x332 <HLCD_voidDisplayChar>
+		/*wait for 1 second*/
+		LDelay_voidDelay_ms(1000);
+ 684:	68 ee       	ldi	r22, 0xE8	; 232
+ 686:	73 e0       	ldi	r23, 0x03	; 3
+ 688:	80 e0       	ldi	r24, 0x00	; 0
+ 68a:	90 e0       	ldi	r25, 0x00	; 0
+ 68c:	0e 94 6c 02 	call	0x4d8	; 0x4d8 <LDelay_voidDelay_ms>
+ 690:	10 e1       	ldi	r17, 0x10	; 16
+		
+		/*shift right 16 times*/
+		for (u8 i =0;i<16;i++)
+		{
+			HLCD_voidShiftRight();
+ 692:	0e 94 0b 02 	call	0x416	; 0x416 <HLCD_voidShiftRight>
+			/*wait for 500 ms*/
+			LDelay_voidDelay_ms(500);
+ 696:	64 ef       	ldi	r22, 0xF4	; 244
+ 698:	71 e0       	ldi	r23, 0x01	; 1
+ 69a:	80 e0       	ldi	r24, 0x00	; 0
+ 69c:	90 e0       	ldi	r25, 0x00	; 0
+ 69e:	0e 94 6c 02 	call	0x4d8	; 0x4d8 <LDelay_voidDelay_ms>
+ 6a2:	11 50       	subi	r17, 0x01	; 1
+		HLCD_voidDisplayChar('c');
+		/*wait for 1 second*/
+		LDelay_voidDelay_ms(1000);
+		
+		/*shift right 16 times*/
+		for (u8 i =0;i<16;i++)
+ 6a4:	b1 f7       	brne	.-20     	; 0x692 <main+0xea>
+ 6a6:	10 e1       	ldi	r17, 0x10	; 16
+		}/*end of shift right for loop*/
+		
+		/*shift left 16 times*/
+		for (u8 i =0;i<16;i++)
+		{
+			HLCD_voidShiftLeft();
+ 6a8:	0e 94 0f 02 	call	0x41e	; 0x41e <HLCD_voidShiftLeft>
+			/*wait for 500 ms*/
+			LDelay_voidDelay_ms(500);
+ 6ac:	64 ef       	ldi	r22, 0xF4	; 244
+ 6ae:	71 e0       	ldi	r23, 0x01	; 1
+ 6b0:	80 e0       	ldi	r24, 0x00	; 0
+ 6b2:	90 e0       	ldi	r25, 0x00	; 0
+ 6b4:	0e 94 6c 02 	call	0x4d8	; 0x4d8 <LDelay_voidDelay_ms>
+ 6b8:	11 50       	subi	r17, 0x01	; 1
+			LDelay_voidDelay_ms(500);
+			
+		}/*end of shift right for loop*/
+		
+		/*shift left 16 times*/
+		for (u8 i =0;i<16;i++)
+ 6ba:	b1 f7       	brne	.-20     	; 0x6a8 <main+0x100>
+			LDelay_voidDelay_ms(500);
+			
+		}/*end of shift left for loop*/
+		
+		/*start cursor blinking and display*/
+		HLCD_voidCursorDisplayOnOff(HLCD_ON);
+ 6bc:	81 e0       	ldi	r24, 0x01	; 1
+ 6be:	0e 94 31 02 	call	0x462	; 0x462 <HLCD_voidCursorDisplayOnOff>
+		HLCD_voidCursorBlinkOnOff(HLCD_ON);
+ 6c2:	81 e0       	ldi	r24, 0x01	; 1
+ 6c4:	0e 94 43 02 	call	0x486	; 0x486 <HLCD_voidCursorBlinkOnOff>
+		/*wait for 1 second*/
+		LDelay_voidDelay_ms(1000);
+ 6c8:	68 ee       	ldi	r22, 0xE8	; 232
+ 6ca:	73 e0       	ldi	r23, 0x03	; 3
+ 6cc:	80 e0       	ldi	r24, 0x00	; 0
+ 6ce:	90 e0       	ldi	r25, 0x00	; 0
+ 6d0:	0e 94 6c 02 	call	0x4d8	; 0x4d8 <LDelay_voidDelay_ms>
+		/*Move cursor 4 steps right*/
+		HLCD_voidCursorShiftRight(3);
+ 6d4:	83 e0       	ldi	r24, 0x03	; 3
+ 6d6:	0e 94 13 02 	call	0x426	; 0x426 <HLCD_voidCursorShiftRight>
+		/*wait for 1 second*/
+		LDelay_voidDelay_ms(1000);
+ 6da:	68 ee       	ldi	r22, 0xE8	; 232
+ 6dc:	73 e0       	ldi	r23, 0x03	; 3
+ 6de:	80 e0       	ldi	r24, 0x00	; 0
+ 6e0:	90 e0       	ldi	r25, 0x00	; 0
+ 6e2:	0e 94 6c 02 	call	0x4d8	; 0x4d8 <LDelay_voidDelay_ms>
+		/*display b character*/
+		HLCD_voidDisplayChar('b');
+ 6e6:	82 e6       	ldi	r24, 0x62	; 98
+ 6e8:	0e 94 99 01 	call	0x332	; 0x332 <HLCD_voidDisplayChar>
+		/*wait for 1 second*/
+		LDelay_voidDelay_ms(1000);
+ 6ec:	68 ee       	ldi	r22, 0xE8	; 232
+ 6ee:	73 e0       	ldi	r23, 0x03	; 3
+ 6f0:	80 e0       	ldi	r24, 0x00	; 0
+ 6f2:	90 e0       	ldi	r25, 0x00	; 0
+ 6f4:	0e 94 6c 02 	call	0x4d8	; 0x4d8 <LDelay_voidDelay_ms>
+		/*move cursor 2 steps left*/
+		HLCD_voidCursorShiftLeft(2);
+ 6f8:	82 e0       	ldi	r24, 0x02	; 2
+ 6fa:	0e 94 22 02 	call	0x444	; 0x444 <HLCD_voidCursorShiftLeft>
+		/*wait for 1 second*/
+		LDelay_voidDelay_ms(1000);
+ 6fe:	68 ee       	ldi	r22, 0xE8	; 232
+ 700:	73 e0       	ldi	r23, 0x03	; 3
+ 702:	80 e0       	ldi	r24, 0x00	; 0
+ 704:	90 e0       	ldi	r25, 0x00	; 0
+ 706:	0e 94 6c 02 	call	0x4d8	; 0x4d8 <LDelay_voidDelay_ms>
+		HLCD_voidDisplayChar('f');
+ 70a:	86 e6       	ldi	r24, 0x66	; 102
+ 70c:	0e 94 99 01 	call	0x332	; 0x332 <HLCD_voidDisplayChar>
+		/*wait for 1 second*/
+		LDelay_voidDelay_ms(1000);
+ 710:	68 ee       	ldi	r22, 0xE8	; 232
+ 712:	73 e0       	ldi	r23, 0x03	; 3
+ 714:	80 e0       	ldi	r24, 0x00	; 0
+ 716:	90 e0       	ldi	r25, 0x00	; 0
+ 718:	0e 94 6c 02 	call	0x4d8	; 0x4d8 <LDelay_voidDelay_ms>
+		/*return cursor to initial position without clearing display*/	
+		HLCD_voidReturnHome();
+ 71c:	0e 94 79 01 	call	0x2f2	; 0x2f2 <HLCD_voidReturnHome>
+		/*wait for 1 second*/
+		LDelay_voidDelay_ms(1000);
+ 720:	68 ee       	ldi	r22, 0xE8	; 232
+ 722:	73 e0       	ldi	r23, 0x03	; 3
+ 724:	80 e0       	ldi	r24, 0x00	; 0
+ 726:	90 e0       	ldi	r25, 0x00	; 0
+ 728:	0e 94 6c 02 	call	0x4d8	; 0x4d8 <LDelay_voidDelay_ms>
+		/*clear LCD*/
+		HLCD_voidClearLCD();
+ 72c:	0e 94 75 01 	call	0x2ea	; 0x2ea <HLCD_voidClearLCD>
+		/*wait 1 second*/
+		LDelay_voidDelay_ms(1000);
+ 730:	68 ee       	ldi	r22, 0xE8	; 232
+ 732:	73 e0       	ldi	r23, 0x03	; 3
+ 734:	80 e0       	ldi	r24, 0x00	; 0
+ 736:	90 e0       	ldi	r25, 0x00	; 0
+ 738:	0e 94 6c 02 	call	0x4d8	; 0x4d8 <LDelay_voidDelay_ms>
+		/*loop custom character*/
+		for (u8 i =0;i<8;i++)
+		{
+			/*display all custom made characters saved in CGRAM*/
+			HLCD_voidDisplayCustomChar(i);
+ 73c:	81 2f       	mov	r24, r17
+ 73e:	0e 94 67 02 	call	0x4ce	; 0x4ce <HLCD_voidDisplayCustomChar>
+			/*wait for 500 ms*/
+			LDelay_voidDelay_ms(500);
+ 742:	64 ef       	ldi	r22, 0xF4	; 244
+ 744:	71 e0       	ldi	r23, 0x01	; 1
+ 746:	80 e0       	ldi	r24, 0x00	; 0
+ 748:	90 e0       	ldi	r25, 0x00	; 0
+ 74a:	0e 94 6c 02 	call	0x4d8	; 0x4d8 <LDelay_voidDelay_ms>
+		/*clear LCD*/
+		HLCD_voidClearLCD();
+		/*wait 1 second*/
+		LDelay_voidDelay_ms(1000);
+		/*loop custom character*/
+		for (u8 i =0;i<8;i++)
+ 74e:	1f 5f       	subi	r17, 0xFF	; 255
+ 750:	18 30       	cpi	r17, 0x08	; 8
+ 752:	a1 f7       	brne	.-24     	; 0x73c <main+0x194>
+			LDelay_voidDelay_ms(500);
+			
+		}/*end of custom character loop*/
+		
+		/*wait for 3 second*/
+		LDelay_voidDelay_ms(3000);
+ 754:	68 eb       	ldi	r22, 0xB8	; 184
+ 756:	7b e0       	ldi	r23, 0x0B	; 11
+ 758:	80 e0       	ldi	r24, 0x00	; 0
+ 75a:	90 e0       	ldi	r25, 0x00	; 0
+ 75c:	0e 94 6c 02 	call	0x4d8	; 0x4d8 <LDelay_voidDelay_ms>
+		
+	}/*end of while loop*/
+ 760:	33 cf       	rjmp	.-410    	; 0x5c8 <main+0x20>
+
+00000762 <MDIO_u8SetDirectionReg>:
+		case MDIO_PORTD : {DIO_PORTD = Local_u8RegValue; return 0;}  break;
+		default         : return 1;   /*error Undefined Port*/
+
+	}/*end of register switch case*/
+
+}/*end of MDIO_u8WriteReg()*/
+ 762:	61 30       	cpi	r22, 0x01	; 1
+ 764:	09 f4       	brne	.+2      	; 0x768 <MDIO_u8SetDirectionReg+0x6>
+ 766:	6f ef       	ldi	r22, 0xFF	; 255
+ 768:	82 30       	cpi	r24, 0x02	; 2
+ 76a:	61 f0       	breq	.+24     	; 0x784 <MDIO_u8SetDirectionReg+0x22>
+ 76c:	18 f4       	brcc	.+6      	; 0x774 <MDIO_u8SetDirectionReg+0x12>
+ 76e:	81 30       	cpi	r24, 0x01	; 1
+ 770:	31 f0       	breq	.+12     	; 0x77e <MDIO_u8SetDirectionReg+0x1c>
+ 772:	11 c0       	rjmp	.+34     	; 0x796 <MDIO_u8SetDirectionReg+0x34>
+ 774:	83 30       	cpi	r24, 0x03	; 3
+ 776:	49 f0       	breq	.+18     	; 0x78a <MDIO_u8SetDirectionReg+0x28>
+ 778:	84 30       	cpi	r24, 0x04	; 4
+ 77a:	51 f0       	breq	.+20     	; 0x790 <MDIO_u8SetDirectionReg+0x2e>
+ 77c:	0c c0       	rjmp	.+24     	; 0x796 <MDIO_u8SetDirectionReg+0x34>
+ 77e:	6a bb       	out	0x1a, r22	; 26
+ 780:	80 e0       	ldi	r24, 0x00	; 0
+ 782:	08 95       	ret
+ 784:	67 bb       	out	0x17, r22	; 23
+ 786:	80 e0       	ldi	r24, 0x00	; 0
+ 788:	08 95       	ret
+ 78a:	64 bb       	out	0x14, r22	; 20
+ 78c:	80 e0       	ldi	r24, 0x00	; 0
+ 78e:	08 95       	ret
+ 790:	61 bb       	out	0x11, r22	; 17
+ 792:	80 e0       	ldi	r24, 0x00	; 0
+ 794:	08 95       	ret
+ 796:	81 e0       	ldi	r24, 0x01	; 1
+ 798:	08 95       	ret
+
+0000079a <MDIO_u8SetDirectionBit>:
+ 79a:	68 30       	cpi	r22, 0x08	; 8
+ 79c:	08 f0       	brcs	.+2      	; 0x7a0 <MDIO_u8SetDirectionBit+0x6>
+ 79e:	7f c0       	rjmp	.+254    	; 0x89e <__stack+0x3f>
+ 7a0:	42 30       	cpi	r20, 0x02	; 2
+ 7a2:	08 f0       	brcs	.+2      	; 0x7a6 <MDIO_u8SetDirectionBit+0xc>
+ 7a4:	7e c0       	rjmp	.+252    	; 0x8a2 <__stack+0x43>
+ 7a6:	82 30       	cpi	r24, 0x02	; 2
+ 7a8:	31 f1       	breq	.+76     	; 0x7f6 <MDIO_u8SetDirectionBit+0x5c>
+ 7aa:	18 f4       	brcc	.+6      	; 0x7b2 <MDIO_u8SetDirectionBit+0x18>
+ 7ac:	81 30       	cpi	r24, 0x01	; 1
+ 7ae:	39 f0       	breq	.+14     	; 0x7be <MDIO_u8SetDirectionBit+0x24>
+ 7b0:	7a c0       	rjmp	.+244    	; 0x8a6 <__stack+0x47>
+ 7b2:	83 30       	cpi	r24, 0x03	; 3
+ 7b4:	e1 f1       	breq	.+120    	; 0x82e <MDIO_u8SetDirectionBit+0x94>
+ 7b6:	84 30       	cpi	r24, 0x04	; 4
+ 7b8:	09 f4       	brne	.+2      	; 0x7bc <MDIO_u8SetDirectionBit+0x22>
+ 7ba:	55 c0       	rjmp	.+170    	; 0x866 <__stack+0x7>
+ 7bc:	74 c0       	rjmp	.+232    	; 0x8a6 <__stack+0x47>
+ 7be:	41 11       	cpse	r20, r1
+ 7c0:	0d c0       	rjmp	.+26     	; 0x7dc <MDIO_u8SetDirectionBit+0x42>
+ 7c2:	9a b3       	in	r25, 0x1a	; 26
+ 7c4:	21 e0       	ldi	r18, 0x01	; 1
+ 7c6:	30 e0       	ldi	r19, 0x00	; 0
+ 7c8:	02 c0       	rjmp	.+4      	; 0x7ce <MDIO_u8SetDirectionBit+0x34>
+ 7ca:	22 0f       	add	r18, r18
+ 7cc:	33 1f       	adc	r19, r19
+ 7ce:	6a 95       	dec	r22
+ 7d0:	e2 f7       	brpl	.-8      	; 0x7ca <MDIO_u8SetDirectionBit+0x30>
+ 7d2:	82 2f       	mov	r24, r18
+ 7d4:	80 95       	com	r24
+ 7d6:	89 23       	and	r24, r25
+ 7d8:	8a bb       	out	0x1a, r24	; 26
+ 7da:	0a c0       	rjmp	.+20     	; 0x7f0 <MDIO_u8SetDirectionBit+0x56>
+ 7dc:	2a b3       	in	r18, 0x1a	; 26
+ 7de:	81 e0       	ldi	r24, 0x01	; 1
+ 7e0:	90 e0       	ldi	r25, 0x00	; 0
+ 7e2:	02 c0       	rjmp	.+4      	; 0x7e8 <MDIO_u8SetDirectionBit+0x4e>
+ 7e4:	88 0f       	add	r24, r24
+ 7e6:	99 1f       	adc	r25, r25
+ 7e8:	6a 95       	dec	r22
+ 7ea:	e2 f7       	brpl	.-8      	; 0x7e4 <MDIO_u8SetDirectionBit+0x4a>
+ 7ec:	82 2b       	or	r24, r18
+ 7ee:	8a bb       	out	0x1a, r24	; 26
+ 7f0:	8a bb       	out	0x1a, r24	; 26
+ 7f2:	80 e0       	ldi	r24, 0x00	; 0
+ 7f4:	08 95       	ret
+ 7f6:	41 11       	cpse	r20, r1
+ 7f8:	0d c0       	rjmp	.+26     	; 0x814 <MDIO_u8SetDirectionBit+0x7a>
+ 7fa:	97 b3       	in	r25, 0x17	; 23
+ 7fc:	21 e0       	ldi	r18, 0x01	; 1
+ 7fe:	30 e0       	ldi	r19, 0x00	; 0
+ 800:	02 c0       	rjmp	.+4      	; 0x806 <MDIO_u8SetDirectionBit+0x6c>
+ 802:	22 0f       	add	r18, r18
+ 804:	33 1f       	adc	r19, r19
+ 806:	6a 95       	dec	r22
+ 808:	e2 f7       	brpl	.-8      	; 0x802 <MDIO_u8SetDirectionBit+0x68>
+ 80a:	82 2f       	mov	r24, r18
+ 80c:	80 95       	com	r24
+ 80e:	89 23       	and	r24, r25
+ 810:	87 bb       	out	0x17, r24	; 23
+ 812:	0a c0       	rjmp	.+20     	; 0x828 <MDIO_u8SetDirectionBit+0x8e>
+ 814:	27 b3       	in	r18, 0x17	; 23
+ 816:	81 e0       	ldi	r24, 0x01	; 1
+ 818:	90 e0       	ldi	r25, 0x00	; 0
+ 81a:	02 c0       	rjmp	.+4      	; 0x820 <MDIO_u8SetDirectionBit+0x86>
+ 81c:	88 0f       	add	r24, r24
+ 81e:	99 1f       	adc	r25, r25
+ 820:	6a 95       	dec	r22
+ 822:	e2 f7       	brpl	.-8      	; 0x81c <MDIO_u8SetDirectionBit+0x82>
+ 824:	82 2b       	or	r24, r18
+ 826:	87 bb       	out	0x17, r24	; 23
+ 828:	87 bb       	out	0x17, r24	; 23
+ 82a:	80 e0       	ldi	r24, 0x00	; 0
+ 82c:	08 95       	ret
+ 82e:	41 11       	cpse	r20, r1
+ 830:	0d c0       	rjmp	.+26     	; 0x84c <MDIO_u8SetDirectionBit+0xb2>
+ 832:	94 b3       	in	r25, 0x14	; 20
+ 834:	21 e0       	ldi	r18, 0x01	; 1
+ 836:	30 e0       	ldi	r19, 0x00	; 0
+ 838:	02 c0       	rjmp	.+4      	; 0x83e <MDIO_u8SetDirectionBit+0xa4>
+ 83a:	22 0f       	add	r18, r18
+ 83c:	33 1f       	adc	r19, r19
+ 83e:	6a 95       	dec	r22
+ 840:	e2 f7       	brpl	.-8      	; 0x83a <MDIO_u8SetDirectionBit+0xa0>
+ 842:	82 2f       	mov	r24, r18
+ 844:	80 95       	com	r24
+ 846:	89 23       	and	r24, r25
+ 848:	84 bb       	out	0x14, r24	; 20
+ 84a:	0a c0       	rjmp	.+20     	; 0x860 <__stack+0x1>
+ 84c:	24 b3       	in	r18, 0x14	; 20
+ 84e:	81 e0       	ldi	r24, 0x01	; 1
+ 850:	90 e0       	ldi	r25, 0x00	; 0
+ 852:	02 c0       	rjmp	.+4      	; 0x858 <MDIO_u8SetDirectionBit+0xbe>
+ 854:	88 0f       	add	r24, r24
+ 856:	99 1f       	adc	r25, r25
+ 858:	6a 95       	dec	r22
+ 85a:	e2 f7       	brpl	.-8      	; 0x854 <MDIO_u8SetDirectionBit+0xba>
+ 85c:	82 2b       	or	r24, r18
+ 85e:	84 bb       	out	0x14, r24	; 20
+ 860:	84 bb       	out	0x14, r24	; 20
+ 862:	80 e0       	ldi	r24, 0x00	; 0
+ 864:	08 95       	ret
+ 866:	41 11       	cpse	r20, r1
+ 868:	0d c0       	rjmp	.+26     	; 0x884 <__stack+0x25>
+ 86a:	91 b3       	in	r25, 0x11	; 17
+ 86c:	21 e0       	ldi	r18, 0x01	; 1
+ 86e:	30 e0       	ldi	r19, 0x00	; 0
+ 870:	02 c0       	rjmp	.+4      	; 0x876 <__stack+0x17>
+ 872:	22 0f       	add	r18, r18
+ 874:	33 1f       	adc	r19, r19
+ 876:	6a 95       	dec	r22
+ 878:	e2 f7       	brpl	.-8      	; 0x872 <__stack+0x13>
+ 87a:	82 2f       	mov	r24, r18
+ 87c:	80 95       	com	r24
+ 87e:	89 23       	and	r24, r25
+ 880:	81 bb       	out	0x11, r24	; 17
+ 882:	0a c0       	rjmp	.+20     	; 0x898 <__stack+0x39>
+ 884:	21 b3       	in	r18, 0x11	; 17
+ 886:	81 e0       	ldi	r24, 0x01	; 1
+ 888:	90 e0       	ldi	r25, 0x00	; 0
+ 88a:	02 c0       	rjmp	.+4      	; 0x890 <__stack+0x31>
+ 88c:	88 0f       	add	r24, r24
+ 88e:	99 1f       	adc	r25, r25
+ 890:	6a 95       	dec	r22
+ 892:	e2 f7       	brpl	.-8      	; 0x88c <__stack+0x2d>
+ 894:	82 2b       	or	r24, r18
+ 896:	81 bb       	out	0x11, r24	; 17
+ 898:	81 bb       	out	0x11, r24	; 17
+ 89a:	80 e0       	ldi	r24, 0x00	; 0
+ 89c:	08 95       	ret
+ 89e:	82 e0       	ldi	r24, 0x02	; 2
+ 8a0:	08 95       	ret
+ 8a2:	83 e0       	ldi	r24, 0x03	; 3
+ 8a4:	08 95       	ret
+ 8a6:	81 e0       	ldi	r24, 0x01	; 1
+ 8a8:	08 95       	ret
+
+000008aa <MDIO_u8WriteBit>:
+ */
+u8 MDIO_u8WriteBit(u8 Copy_u8Reg,u8 Copy_u8Bit,u8 Copy_u8Value)
+{
+
+	/*bit number check condition*/
+	if( (Copy_u8Bit >= 0) && (Copy_u8Bit < 8) )
+ 8aa:	68 30       	cpi	r22, 0x08	; 8
+ 8ac:	08 f0       	brcs	.+2      	; 0x8b0 <MDIO_u8WriteBit+0x6>
+ 8ae:	7b c0       	rjmp	.+246    	; 0x9a6 <MDIO_u8WriteBit+0xfc>
+	{
+		/*Register value check condition*/
+		if ((0 == Copy_u8Value) || (1 == Copy_u8Value))
+ 8b0:	42 30       	cpi	r20, 0x02	; 2
+ 8b2:	08 f0       	brcs	.+2      	; 0x8b6 <MDIO_u8WriteBit+0xc>
+ 8b4:	7a c0       	rjmp	.+244    	; 0x9aa <MDIO_u8WriteBit+0x100>
+		{
+			/*register switch case*/
+			switch (Copy_u8Reg)
+ 8b6:	82 30       	cpi	r24, 0x02	; 2
+ 8b8:	29 f1       	breq	.+74     	; 0x904 <MDIO_u8WriteBit+0x5a>
+ 8ba:	18 f4       	brcc	.+6      	; 0x8c2 <MDIO_u8WriteBit+0x18>
+ 8bc:	81 30       	cpi	r24, 0x01	; 1
+ 8be:	39 f0       	breq	.+14     	; 0x8ce <MDIO_u8WriteBit+0x24>
+ 8c0:	76 c0       	rjmp	.+236    	; 0x9ae <MDIO_u8WriteBit+0x104>
+ 8c2:	83 30       	cpi	r24, 0x03	; 3
+ 8c4:	d1 f1       	breq	.+116    	; 0x93a <MDIO_u8WriteBit+0x90>
+ 8c6:	84 30       	cpi	r24, 0x04	; 4
+ 8c8:	09 f4       	brne	.+2      	; 0x8cc <MDIO_u8WriteBit+0x22>
+ 8ca:	52 c0       	rjmp	.+164    	; 0x970 <MDIO_u8WriteBit+0xc6>
+ 8cc:	70 c0       	rjmp	.+224    	; 0x9ae <MDIO_u8WriteBit+0x104>
+			{
+				/*set bit corresponding PORTx reg value with inputed bit value(Copy_u8Value)*/
+				case MDIO_PORTA : {L_UTILS_SET_BIT_VALUE(DIO_PORTA,Copy_u8Bit,Copy_u8Value); return 0;} break;
+ 8ce:	41 11       	cpse	r20, r1
+ 8d0:	0d c0       	rjmp	.+26     	; 0x8ec <MDIO_u8WriteBit+0x42>
+ 8d2:	2b b3       	in	r18, 0x1b	; 27
+ 8d4:	81 e0       	ldi	r24, 0x01	; 1
+ 8d6:	90 e0       	ldi	r25, 0x00	; 0
+ 8d8:	02 c0       	rjmp	.+4      	; 0x8de <MDIO_u8WriteBit+0x34>
+ 8da:	88 0f       	add	r24, r24
+ 8dc:	99 1f       	adc	r25, r25
+ 8de:	6a 95       	dec	r22
+ 8e0:	e2 f7       	brpl	.-8      	; 0x8da <MDIO_u8WriteBit+0x30>
+ 8e2:	80 95       	com	r24
+ 8e4:	82 23       	and	r24, r18
+ 8e6:	8b bb       	out	0x1b, r24	; 27
+ 8e8:	80 e0       	ldi	r24, 0x00	; 0
+ 8ea:	08 95       	ret
+ 8ec:	2b b3       	in	r18, 0x1b	; 27
+ 8ee:	81 e0       	ldi	r24, 0x01	; 1
+ 8f0:	90 e0       	ldi	r25, 0x00	; 0
+ 8f2:	02 c0       	rjmp	.+4      	; 0x8f8 <MDIO_u8WriteBit+0x4e>
+ 8f4:	88 0f       	add	r24, r24
+ 8f6:	99 1f       	adc	r25, r25
+ 8f8:	6a 95       	dec	r22
+ 8fa:	e2 f7       	brpl	.-8      	; 0x8f4 <MDIO_u8WriteBit+0x4a>
+ 8fc:	82 2b       	or	r24, r18
+ 8fe:	8b bb       	out	0x1b, r24	; 27
+ 900:	80 e0       	ldi	r24, 0x00	; 0
+ 902:	08 95       	ret
+				case MDIO_PORTB : {L_UTILS_SET_BIT_VALUE(DIO_PORTB,Copy_u8Bit,Copy_u8Value); return 0;} break;
+ 904:	41 11       	cpse	r20, r1
+ 906:	0d c0       	rjmp	.+26     	; 0x922 <MDIO_u8WriteBit+0x78>
+ 908:	28 b3       	in	r18, 0x18	; 24
+ 90a:	81 e0       	ldi	r24, 0x01	; 1
+ 90c:	90 e0       	ldi	r25, 0x00	; 0
+ 90e:	02 c0       	rjmp	.+4      	; 0x914 <MDIO_u8WriteBit+0x6a>
+ 910:	88 0f       	add	r24, r24
+ 912:	99 1f       	adc	r25, r25
+ 914:	6a 95       	dec	r22
+ 916:	e2 f7       	brpl	.-8      	; 0x910 <MDIO_u8WriteBit+0x66>
+ 918:	80 95       	com	r24
+ 91a:	82 23       	and	r24, r18
+ 91c:	88 bb       	out	0x18, r24	; 24
+ 91e:	80 e0       	ldi	r24, 0x00	; 0
+ 920:	08 95       	ret
+ 922:	28 b3       	in	r18, 0x18	; 24
+ 924:	81 e0       	ldi	r24, 0x01	; 1
+ 926:	90 e0       	ldi	r25, 0x00	; 0
+ 928:	02 c0       	rjmp	.+4      	; 0x92e <MDIO_u8WriteBit+0x84>
+ 92a:	88 0f       	add	r24, r24
+ 92c:	99 1f       	adc	r25, r25
+ 92e:	6a 95       	dec	r22
+ 930:	e2 f7       	brpl	.-8      	; 0x92a <MDIO_u8WriteBit+0x80>
+ 932:	82 2b       	or	r24, r18
+ 934:	88 bb       	out	0x18, r24	; 24
+ 936:	80 e0       	ldi	r24, 0x00	; 0
+ 938:	08 95       	ret
+				case MDIO_PORTC : {L_UTILS_SET_BIT_VALUE(DIO_PORTC,Copy_u8Bit,Copy_u8Value); return 0;} break;
+ 93a:	41 11       	cpse	r20, r1
+ 93c:	0d c0       	rjmp	.+26     	; 0x958 <MDIO_u8WriteBit+0xae>
+ 93e:	25 b3       	in	r18, 0x15	; 21
+ 940:	81 e0       	ldi	r24, 0x01	; 1
+ 942:	90 e0       	ldi	r25, 0x00	; 0
+ 944:	02 c0       	rjmp	.+4      	; 0x94a <MDIO_u8WriteBit+0xa0>
+ 946:	88 0f       	add	r24, r24
+ 948:	99 1f       	adc	r25, r25
+ 94a:	6a 95       	dec	r22
+ 94c:	e2 f7       	brpl	.-8      	; 0x946 <MDIO_u8WriteBit+0x9c>
+ 94e:	80 95       	com	r24
+ 950:	82 23       	and	r24, r18
+ 952:	85 bb       	out	0x15, r24	; 21
+ 954:	80 e0       	ldi	r24, 0x00	; 0
+ 956:	08 95       	ret
+ 958:	25 b3       	in	r18, 0x15	; 21
+ 95a:	81 e0       	ldi	r24, 0x01	; 1
+ 95c:	90 e0       	ldi	r25, 0x00	; 0
+ 95e:	02 c0       	rjmp	.+4      	; 0x964 <MDIO_u8WriteBit+0xba>
+ 960:	88 0f       	add	r24, r24
+ 962:	99 1f       	adc	r25, r25
+ 964:	6a 95       	dec	r22
+ 966:	e2 f7       	brpl	.-8      	; 0x960 <MDIO_u8WriteBit+0xb6>
+ 968:	82 2b       	or	r24, r18
+ 96a:	85 bb       	out	0x15, r24	; 21
+ 96c:	80 e0       	ldi	r24, 0x00	; 0
+ 96e:	08 95       	ret
+				case MDIO_PORTD : {L_UTILS_SET_BIT_VALUE(DIO_PORTD,Copy_u8Bit,Copy_u8Value); return 0;} break;
+ 970:	41 11       	cpse	r20, r1
+ 972:	0d c0       	rjmp	.+26     	; 0x98e <MDIO_u8WriteBit+0xe4>
+ 974:	22 b3       	in	r18, 0x12	; 18
+ 976:	81 e0       	ldi	r24, 0x01	; 1
+ 978:	90 e0       	ldi	r25, 0x00	; 0
+ 97a:	02 c0       	rjmp	.+4      	; 0x980 <MDIO_u8WriteBit+0xd6>
+ 97c:	88 0f       	add	r24, r24
+ 97e:	99 1f       	adc	r25, r25
+ 980:	6a 95       	dec	r22
+ 982:	e2 f7       	brpl	.-8      	; 0x97c <MDIO_u8WriteBit+0xd2>
+ 984:	80 95       	com	r24
+ 986:	82 23       	and	r24, r18
+ 988:	82 bb       	out	0x12, r24	; 18
+ 98a:	80 e0       	ldi	r24, 0x00	; 0
+ 98c:	08 95       	ret
+ 98e:	22 b3       	in	r18, 0x12	; 18
+ 990:	81 e0       	ldi	r24, 0x01	; 1
+ 992:	90 e0       	ldi	r25, 0x00	; 0
+ 994:	02 c0       	rjmp	.+4      	; 0x99a <MDIO_u8WriteBit+0xf0>
+ 996:	88 0f       	add	r24, r24
+ 998:	99 1f       	adc	r25, r25
+ 99a:	6a 95       	dec	r22
+ 99c:	e2 f7       	brpl	.-8      	; 0x996 <MDIO_u8WriteBit+0xec>
+ 99e:	82 2b       	or	r24, r18
+ 9a0:	82 bb       	out	0x12, r24	; 18
+ 9a2:	80 e0       	ldi	r24, 0x00	; 0
+ 9a4:	08 95       	ret
+		}/*end of Register value check condition*/
+	}
+	else
+	{
+		/*Report Bit number out of range error*/
+		return 2; 
+ 9a6:	82 e0       	ldi	r24, 0x02	; 2
+ 9a8:	08 95       	ret
+			}/*end of Register switch case*/	
+		} 
+		else
+		{
+			/*Report Register value out of range error*/
+			return 3; 
+ 9aa:	83 e0       	ldi	r24, 0x03	; 3
+ 9ac:	08 95       	ret
+				/*set bit corresponding PORTx reg value with inputed bit value(Copy_u8Value)*/
+				case MDIO_PORTA : {L_UTILS_SET_BIT_VALUE(DIO_PORTA,Copy_u8Bit,Copy_u8Value); return 0;} break;
+				case MDIO_PORTB : {L_UTILS_SET_BIT_VALUE(DIO_PORTB,Copy_u8Bit,Copy_u8Value); return 0;} break;
+				case MDIO_PORTC : {L_UTILS_SET_BIT_VALUE(DIO_PORTC,Copy_u8Bit,Copy_u8Value); return 0;} break;
+				case MDIO_PORTD : {L_UTILS_SET_BIT_VALUE(DIO_PORTD,Copy_u8Bit,Copy_u8Value); return 0;} break;
+				default         : return 1; /*error Undefined Port*/
+ 9ae:	81 e0       	ldi	r24, 0x01	; 1
+		/*Report Bit number out of range error*/
+		return 2; 
+
+	}/*end of bit number check condition*/
+
+}/*end of MDIO_u8WriteBit()*/
+ 9b0:	08 95       	ret
+
+000009b2 <__mulsi3>:
+ 9b2:	db 01       	movw	r26, r22
+ 9b4:	8f 93       	push	r24
+ 9b6:	9f 93       	push	r25
+ 9b8:	0e 94 0b 05 	call	0xa16	; 0xa16 <__muluhisi3>
+ 9bc:	bf 91       	pop	r27
+ 9be:	af 91       	pop	r26
+ 9c0:	a2 9f       	mul	r26, r18
+ 9c2:	80 0d       	add	r24, r0
+ 9c4:	91 1d       	adc	r25, r1
+ 9c6:	a3 9f       	mul	r26, r19
+ 9c8:	90 0d       	add	r25, r0
+ 9ca:	b2 9f       	mul	r27, r18
+ 9cc:	90 0d       	add	r25, r0
+ 9ce:	11 24       	eor	r1, r1
+ 9d0:	08 95       	ret
+
+000009d2 <__udivmodsi4>:
+ 9d2:	a1 e2       	ldi	r26, 0x21	; 33
+ 9d4:	1a 2e       	mov	r1, r26
+ 9d6:	aa 1b       	sub	r26, r26
+ 9d8:	bb 1b       	sub	r27, r27
+ 9da:	fd 01       	movw	r30, r26
+ 9dc:	0d c0       	rjmp	.+26     	; 0x9f8 <__udivmodsi4_ep>
+
+000009de <__udivmodsi4_loop>:
+ 9de:	aa 1f       	adc	r26, r26
+ 9e0:	bb 1f       	adc	r27, r27
+ 9e2:	ee 1f       	adc	r30, r30
+ 9e4:	ff 1f       	adc	r31, r31
+ 9e6:	a2 17       	cp	r26, r18
+ 9e8:	b3 07       	cpc	r27, r19
+ 9ea:	e4 07       	cpc	r30, r20
+ 9ec:	f5 07       	cpc	r31, r21
+ 9ee:	20 f0       	brcs	.+8      	; 0x9f8 <__udivmodsi4_ep>
+ 9f0:	a2 1b       	sub	r26, r18
+ 9f2:	b3 0b       	sbc	r27, r19
+ 9f4:	e4 0b       	sbc	r30, r20
+ 9f6:	f5 0b       	sbc	r31, r21
+
+000009f8 <__udivmodsi4_ep>:
+ 9f8:	66 1f       	adc	r22, r22
+ 9fa:	77 1f       	adc	r23, r23
+ 9fc:	88 1f       	adc	r24, r24
+ 9fe:	99 1f       	adc	r25, r25
+ a00:	1a 94       	dec	r1
+ a02:	69 f7       	brne	.-38     	; 0x9de <__udivmodsi4_loop>
+ a04:	60 95       	com	r22
+ a06:	70 95       	com	r23
+ a08:	80 95       	com	r24
+ a0a:	90 95       	com	r25
+ a0c:	9b 01       	movw	r18, r22
+ a0e:	ac 01       	movw	r20, r24
+ a10:	bd 01       	movw	r22, r26
+ a12:	cf 01       	movw	r24, r30
+ a14:	08 95       	ret
+
+00000a16 <__muluhisi3>:
+ a16:	0e 94 5f 05 	call	0xabe	; 0xabe <__umulhisi3>
+ a1a:	a5 9f       	mul	r26, r21
+ a1c:	90 0d       	add	r25, r0
+ a1e:	b4 9f       	mul	r27, r20
+ a20:	90 0d       	add	r25, r0
+ a22:	a4 9f       	mul	r26, r20
+ a24:	80 0d       	add	r24, r0
+ a26:	91 1d       	adc	r25, r1
+ a28:	11 24       	eor	r1, r1
+ a2a:	08 95       	ret
+
+00000a2c <__umulsidi3>:
+ a2c:	e8 94       	clt
+
+00000a2e <__umulsidi3_helper>:
+ a2e:	df 93       	push	r29
+ a30:	cf 93       	push	r28
+ a32:	fc 01       	movw	r30, r24
+ a34:	db 01       	movw	r26, r22
+ a36:	0e 94 5f 05 	call	0xabe	; 0xabe <__umulhisi3>
+ a3a:	7f 93       	push	r23
+ a3c:	6f 93       	push	r22
+ a3e:	e9 01       	movw	r28, r18
+ a40:	9a 01       	movw	r18, r20
+ a42:	ac 01       	movw	r20, r24
+ a44:	bf 93       	push	r27
+ a46:	af 93       	push	r26
+ a48:	3f 93       	push	r19
+ a4a:	2f 93       	push	r18
+ a4c:	df 01       	movw	r26, r30
+ a4e:	0e 94 5f 05 	call	0xabe	; 0xabe <__umulhisi3>
+ a52:	26 f4       	brtc	.+8      	; 0xa5c <__umulsidi3_helper+0x2e>
+ a54:	6c 1b       	sub	r22, r28
+ a56:	7d 0b       	sbc	r23, r29
+ a58:	82 0b       	sbc	r24, r18
+ a5a:	93 0b       	sbc	r25, r19
+ a5c:	9e 01       	movw	r18, r28
+ a5e:	eb 01       	movw	r28, r22
+ a60:	fc 01       	movw	r30, r24
+ a62:	0e 94 6e 05 	call	0xadc	; 0xadc <__muldi3_6>
+ a66:	af 91       	pop	r26
+ a68:	bf 91       	pop	r27
+ a6a:	2f 91       	pop	r18
+ a6c:	3f 91       	pop	r19
+ a6e:	0e 94 6e 05 	call	0xadc	; 0xadc <__muldi3_6>
+ a72:	be 01       	movw	r22, r28
+ a74:	cf 01       	movw	r24, r30
+ a76:	f9 01       	movw	r30, r18
+ a78:	2f 91       	pop	r18
+ a7a:	3f 91       	pop	r19
+ a7c:	cf 91       	pop	r28
+ a7e:	df 91       	pop	r29
+ a80:	08 95       	ret
+
+00000a82 <__ashrdi3>:
+ a82:	97 fb       	bst	r25, 7
+ a84:	10 f8       	bld	r1, 0
+
+00000a86 <__lshrdi3>:
+ a86:	16 94       	lsr	r1
+ a88:	00 08       	sbc	r0, r0
+ a8a:	0f 93       	push	r16
+ a8c:	08 30       	cpi	r16, 0x08	; 8
+ a8e:	98 f0       	brcs	.+38     	; 0xab6 <__lshrdi3+0x30>
+ a90:	08 50       	subi	r16, 0x08	; 8
+ a92:	23 2f       	mov	r18, r19
+ a94:	34 2f       	mov	r19, r20
+ a96:	45 2f       	mov	r20, r21
+ a98:	56 2f       	mov	r21, r22
+ a9a:	67 2f       	mov	r22, r23
+ a9c:	78 2f       	mov	r23, r24
+ a9e:	89 2f       	mov	r24, r25
+ aa0:	90 2d       	mov	r25, r0
+ aa2:	f4 cf       	rjmp	.-24     	; 0xa8c <__lshrdi3+0x6>
+ aa4:	05 94       	asr	r0
+ aa6:	97 95       	ror	r25
+ aa8:	87 95       	ror	r24
+ aaa:	77 95       	ror	r23
+ aac:	67 95       	ror	r22
+ aae:	57 95       	ror	r21
+ ab0:	47 95       	ror	r20
+ ab2:	37 95       	ror	r19
+ ab4:	27 95       	ror	r18
+ ab6:	0a 95       	dec	r16
+ ab8:	aa f7       	brpl	.-22     	; 0xaa4 <__lshrdi3+0x1e>
+ aba:	0f 91       	pop	r16
+ abc:	08 95       	ret
+
+00000abe <__umulhisi3>:
+ abe:	a2 9f       	mul	r26, r18
+ ac0:	b0 01       	movw	r22, r0
+ ac2:	b3 9f       	mul	r27, r19
+ ac4:	c0 01       	movw	r24, r0
+ ac6:	a3 9f       	mul	r26, r19
+ ac8:	70 0d       	add	r23, r0
+ aca:	81 1d       	adc	r24, r1
+ acc:	11 24       	eor	r1, r1
+ ace:	91 1d       	adc	r25, r1
+ ad0:	b2 9f       	mul	r27, r18
+ ad2:	70 0d       	add	r23, r0
+ ad4:	81 1d       	adc	r24, r1
+ ad6:	11 24       	eor	r1, r1
+ ad8:	91 1d       	adc	r25, r1
+ ada:	08 95       	ret
+
+00000adc <__muldi3_6>:
+ adc:	0e 94 5f 05 	call	0xabe	; 0xabe <__umulhisi3>
+ ae0:	46 0f       	add	r20, r22
+ ae2:	57 1f       	adc	r21, r23
+ ae4:	c8 1f       	adc	r28, r24
+ ae6:	d9 1f       	adc	r29, r25
+ ae8:	08 f4       	brcc	.+2      	; 0xaec <__muldi3_6+0x10>
+ aea:	31 96       	adiw	r30, 0x01	; 1
+ aec:	08 95       	ret
+
+00000aee <_exit>:
+ aee:	f8 94       	cli
+
+00000af0 <__stop_program>:
+ af0:	ff cf       	rjmp	.-2      	; 0xaf0 <__stop_program>
